@@ -4,163 +4,293 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Asadbek — Flutter Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;700;800&family=DM+Mono:wght@400;500&family=Inter:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  :root {
-    --bg: #0e0e0e;
-    --bg2: #161616;
-    --bg3: #1e1e1e;
-    --border: rgba(255,255,255,0.08);
-    --text: #f0ede6;
-    --muted: #888780;
-    --accent: #97C459;
-    --accent2: #639922;
-  }
-  body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; line-height: 1.6; }
-  a { color: inherit; text-decoration: none; }
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#080808;--bg2:#111111;--bg3:#181818;--bg4:#1f1f1f;
+  --border:rgba(255,255,255,0.06);--border2:rgba(255,255,255,0.12);
+  --text:#f2ede4;--muted:#6b6862;--muted2:#9a958e;
+  --accent:#97C459;--accent2:#639922;--accent3:rgba(151,196,89,0.12);
+  --mono:'DM Mono',monospace;--display:'Syne',sans-serif;--body:'Inter',sans-serif;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--body);line-height:1.6;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
 
-  nav { display: flex; justify-content: space-between; align-items: center; padding: 1.25rem 2rem; border-bottom: 0.5px solid var(--border); position: sticky; top: 0; background: rgba(14,14,14,0.9); backdrop-filter: blur(12px); z-index: 10; }
-  .logo { font-size: 15px; font-weight: 500; letter-spacing: -0.3px; }
-  .nav-links { display: flex; gap: 2rem; font-size: 14px; color: var(--muted); }
-  .nav-links a:hover { color: var(--text); }
+/* GRAIN */
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:999;opacity:0.4}
 
-  .hero { padding: 6rem 2rem 4rem; max-width: 700px; margin: 0 auto; }
-  .badge { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--accent); border: 0.5px solid var(--accent2); border-radius: 20px; padding: 4px 12px; margin-bottom: 1.5rem; }
-  .badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); animation: pulse 2s infinite; }
-  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
-  h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 500; letter-spacing: -1px; line-height: 1.15; margin-bottom: 1rem; }
-  h1 span { color: var(--accent); }
-  .hero-sub { font-size: 16px; color: var(--muted); max-width: 480px; margin-bottom: 2rem; }
-  .cta-row { display: flex; gap: 12px; flex-wrap: wrap; }
-  .btn { padding: 10px 20px; border-radius: 8px; font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.15s; }
-  .btn-primary { background: var(--accent); color: #173404; border: none; }
-  .btn-primary:hover { background: #aad36e; }
-  .btn-ghost { background: transparent; color: var(--text); border: 0.5px solid var(--border); }
-  .btn-ghost:hover { border-color: rgba(255,255,255,0.25); background: var(--bg3); }
+/* CURSOR */
+.cursor{position:fixed;width:6px;height:6px;background:var(--accent);border-radius:50%;pointer-events:none;z-index:9999;transition:transform 0.1s;mix-blend-mode:difference}
+.cursor-ring{position:fixed;width:28px;height:28px;border:1px solid rgba(151,196,89,0.4);border-radius:50%;pointer-events:none;z-index:9998;transition:transform 0.12s,width 0.2s,height 0.2s,opacity 0.2s}
 
-  section { padding: 4rem 2rem; max-width: 700px; margin: 0 auto; }
-  .section-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--muted); margin-bottom: 2rem; }
+/* NAV */
+nav{display:flex;justify-content:space-between;align-items:center;padding:1.5rem 3rem;border-bottom:0.5px solid var(--border);position:fixed;top:0;width:100%;background:rgba(8,8,8,0.85);backdrop-filter:blur(20px);z-index:100}
+.logo{font-family:var(--display);font-size:15px;font-weight:700;letter-spacing:-0.5px}
+.logo em{color:var(--accent);font-style:normal}
+.nav-links{display:flex;gap:2.5rem;font-size:13px;color:var(--muted);font-family:var(--mono)}
+.nav-links a{transition:color 0.2s;position:relative}
+.nav-links a::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:1px;background:var(--accent);transition:width 0.2s}
+.nav-links a:hover{color:var(--text)}
+.nav-links a:hover::after{width:100%}
 
-  .skills-grid { display: flex; flex-wrap: wrap; gap: 8px; }
-  .skill-tag { font-size: 13px; padding: 6px 14px; border-radius: 20px; border: 0.5px solid var(--border); color: var(--muted); background: var(--bg2); }
-  .skill-tag.main { border-color: var(--accent2); color: var(--accent); background: rgba(99,153,34,0.08); }
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:8rem 3rem 4rem;max-width:1100px;margin:0 auto;position:relative}
+.hero-eyebrow{display:flex;align-items:center;gap:10px;margin-bottom:2.5rem}
+.dot-live{width:7px;height:7px;border-radius:50%;background:var(--accent);animation:livepulse 2s ease infinite}
+@keyframes livepulse{0%,100%{box-shadow:0 0 0 0 rgba(151,196,89,0.4)}50%{box-shadow:0 0 0 6px rgba(151,196,89,0)}}
+.eyebrow-text{font-family:var(--mono);font-size:11px;color:var(--muted2);letter-spacing:1px;text-transform:uppercase}
+.hero-title{font-family:var(--display);font-size:clamp(3rem,7vw,6rem);font-weight:800;line-height:1.0;letter-spacing:-3px;margin-bottom:1rem}
+.hero-title .line2{color:var(--muted);display:block}
+.hero-title .accent{color:var(--accent)}
+.hero-meta{display:flex;align-items:center;gap:2rem;margin-top:3rem;padding-top:3rem;border-top:0.5px solid var(--border)}
+.hero-meta-item{display:flex;flex-direction:column;gap:2px}
+.hero-meta-label{font-family:var(--mono);font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px}
+.hero-meta-val{font-size:14px;color:var(--muted2)}
+.hero-meta-val strong{color:var(--text);font-weight:500}
+.hero-cta{display:flex;gap:10px;margin-top:2.5rem}
+.btn{padding:11px 22px;border-radius:6px;font-size:13px;font-weight:500;cursor:pointer;transition:all 0.15s;display:inline-flex;align-items:center;gap:8px;font-family:var(--body)}
+.btn-primary{background:var(--accent);color:#173404;border:none}
+.btn-primary:hover{background:#aad36e;transform:translateY(-1px)}
+.btn-ghost{background:transparent;color:var(--muted2);border:0.5px solid var(--border2)}
+.btn-ghost:hover{color:var(--text);border-color:rgba(255,255,255,0.25);background:var(--bg3)}
 
-  .projects { display: flex; flex-direction: column; gap: 1px; border: 0.5px solid var(--border); border-radius: 12px; overflow: hidden; }
-  .project { padding: 1.25rem 1.5rem; background: var(--bg2); display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; transition: background 0.15s; }
-  .project:hover { background: var(--bg3); }
-  .project-info h3 { font-size: 15px; font-weight: 500; margin-bottom: 4px; }
-  .project-info p { font-size: 13px; color: var(--muted); line-height: 1.5; }
-  .project-tags { display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap; }
-  .tag { font-size: 11px; padding: 3px 10px; border-radius: 20px; background: var(--bg3); color: var(--muted); border: 0.5px solid var(--border); }
-  .project-link { font-size: 13px; color: var(--accent); white-space: nowrap; flex-shrink: 0; }
-  .project-link:hover { text-decoration: underline; }
+/* SCROLL INDICATOR */
+.scroll-hint{position:absolute;bottom:3rem;left:3rem;font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;display:flex;align-items:center;gap:10px}
+.scroll-hint::before{content:'';display:block;width:30px;height:0.5px;background:var(--muted)}
 
-  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; border: 0.5px solid var(--border); border-radius: 12px; overflow: hidden; margin-bottom: 3rem; }
-  .stat { padding: 1.25rem; background: var(--bg2); text-align: center; }
-  .stat-num { font-size: 24px; font-weight: 500; color: var(--accent); }
-  .stat-label { font-size: 12px; color: var(--muted); margin-top: 2px; }
+/* SECTIONS */
+section{padding:6rem 3rem;max-width:1100px;margin:0 auto}
+.section-header{display:flex;align-items:baseline;gap:1rem;margin-bottom:4rem}
+.section-num{font-family:var(--mono);font-size:11px;color:var(--accent);letter-spacing:2px}
+.section-title{font-family:var(--display);font-size:clamp(1.5rem,3vw,2rem);font-weight:700;letter-spacing:-1px}
+.section-line{flex:1;height:0.5px;background:var(--border);margin-left:1rem}
 
-  .contact-card { background: var(--bg2); border: 0.5px solid var(--border); border-radius: 12px; padding: 2rem; text-align: center; }
-  .contact-card h2 { font-size: 20px; font-weight: 500; margin-bottom: 0.5rem; }
-  .contact-card p { font-size: 14px; color: var(--muted); margin-bottom: 1.5rem; }
-  .contact-links { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+/* ABOUT */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start}
+.about-text p{font-size:16px;color:var(--muted2);line-height:1.8;margin-bottom:1rem}
+.about-text p strong{color:var(--text);font-weight:500}
+.skills-list{display:flex;flex-direction:column;gap:10px}
+.skill-row{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border:0.5px solid var(--border);border-radius:6px;background:var(--bg2);transition:all 0.15s}
+.skill-row:hover{border-color:var(--accent2);background:var(--accent3)}
+.skill-name{font-size:13px;font-weight:500}
+.skill-level{font-family:var(--mono);font-size:11px;color:var(--accent)}
 
-  footer { padding: 2rem; text-align: center; font-size: 13px; color: var(--muted); border-top: 0.5px solid var(--border); }
+/* PROJECTS */
+.projects-grid{display:grid;gap:1px;background:var(--border);border:0.5px solid var(--border);border-radius:12px;overflow:hidden}
+.project-card{background:var(--bg2);padding:2rem;transition:background 0.15s;position:relative;overflow:hidden}
+.project-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--accent2),transparent);opacity:0;transition:opacity 0.3s}
+.project-card:hover{background:var(--bg3)}
+.project-card:hover::before{opacity:1}
+.project-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem}
+.project-index{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:1px}
+.project-arrow{font-size:18px;color:var(--muted);transition:all 0.2s}
+.project-card:hover .project-arrow{color:var(--accent);transform:translate(3px,-3px)}
+.project-name{font-family:var(--display);font-size:20px;font-weight:700;letter-spacing:-0.5px;margin-bottom:8px}
+.project-desc{font-size:14px;color:var(--muted2);line-height:1.7;margin-bottom:1.5rem}
+.project-tags{display:flex;gap:6px;flex-wrap:wrap}
+.ptag{font-family:var(--mono);font-size:10px;padding:4px 10px;border-radius:4px;background:var(--bg4);color:var(--muted2);border:0.5px solid var(--border);letter-spacing:0.5px;text-transform:uppercase}
+.ptag.main{background:var(--accent3);color:var(--accent);border-color:var(--accent2)}
 
-  @media (max-width: 480px) {
-    nav { padding: 1rem; }
-    .hero { padding: 3rem 1rem 2rem; }
-    section { padding: 2.5rem 1rem; }
-    .stats { grid-template-columns: repeat(3,1fr); }
-  }
+/* STATS ROW */
+.stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:0.5px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:5rem}
+.stat-box{background:var(--bg2);padding:2rem;text-align:center}
+.stat-n{font-family:var(--display);font-size:3rem;font-weight:800;color:var(--accent);line-height:1;letter-spacing:-2px}
+.stat-l{font-family:var(--mono);font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:2px;margin-top:8px}
+
+/* CONTACT */
+.contact-wrap{border:0.5px solid var(--border);border-radius:12px;overflow:hidden}
+.contact-inner{padding:4rem;background:var(--bg2);text-align:center;position:relative}
+.contact-inner::before{content:'AVAILABLE';position:absolute;top:2rem;right:2rem;font-family:var(--mono);font-size:10px;color:var(--accent);letter-spacing:3px;border:0.5px solid var(--accent2);padding:4px 10px;border-radius:4px}
+.contact-title{font-family:var(--display);font-size:clamp(2rem,4vw,3.5rem);font-weight:800;letter-spacing:-2px;margin-bottom:1rem}
+.contact-sub{font-size:15px;color:var(--muted2);max-width:400px;margin:0 auto 2.5rem}
+.contact-btns{display:flex;gap:12px;justify-content:center}
+
+/* FOOTER */
+footer{padding:2rem 3rem;border-top:0.5px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.footer-left{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:1px}
+.footer-right{font-family:var(--mono);font-size:11px;color:var(--muted)}
+
+/* FADE IN */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity 0.6s ease,transform 0.6s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+@media(max-width:768px){
+  nav{padding:1rem 1.25rem}
+  .hero{padding:7rem 1.25rem 4rem}
+  .hero-title{letter-spacing:-1.5px}
+  .hero-meta{flex-wrap:wrap;gap:1.5rem}
+  section{padding:4rem 1.25rem}
+  .about-grid{grid-template-columns:1fr}
+  .stats-row{grid-template-columns:repeat(3,1fr)}
+  footer{flex-direction:column;gap:0.5rem;text-align:center;padding:1.5rem}
+}
 </style>
 </head>
 <body>
 
+<div class="cursor" id="cur"></div>
+<div class="cursor-ring" id="ring"></div>
+
 <nav>
-  <div class="logo">Asadbek</div>
+  <div class="logo">As<em>a</em>dbek</div>
   <div class="nav-links">
-    <a href="#projects">Projects</a>
-    <a href="#contact">Contact</a>
-    <a href="https://github.com/c4wnh7vr8k-cell" target="_blank">GitHub</a>
+    <a href="#about">about</a>
+    <a href="#projects">projects</a>
+    <a href="#contact">contact</a>
+    <a href="https://github.com/c4wnh7vr8k-cell" target="_blank">github ↗</a>
   </div>
 </nav>
 
 <div class="hero">
-  <div class="badge">Available for work</div>
-  <h1>Flutter Developer<br>building <span>AI-powered</span><br>mobile apps</h1>
-  <p class="hero-sub">16 y.o. developer from Tashkent. I build fast, clean mobile applications with Flutter and integrate AI to make them smarter.</p>
-  <div class="cta-row">
-    <a href="#projects" class="btn btn-primary">View Projects</a>
-    <a href="https://github.com/c4wnh7vr8k-cell" target="_blank" class="btn btn-ghost">GitHub Profile</a>
+  <div class="hero-eyebrow reveal">
+    <span class="dot-live"></span>
+    <span class="eyebrow-text">Flutter developer · Tashkent, UZ</span>
   </div>
+  <h1 class="hero-title reveal" style="transition-delay:0.1s">
+    Building<br>
+    <span class="line2">AI-powered</span>
+    <span class="accent"> mobile.</span>
+  </h1>
+  <p style="font-size:16px;color:var(--muted2);max-width:420px;margin-top:1.5rem" class="reveal" style="transition-delay:0.2s">
+    16-year-old developer crafting fast, clean Flutter apps with real AI inside them. Not templates — real products.
+  </p>
+  <div class="hero-cta reveal" style="transition-delay:0.25s">
+    <a href="#projects" class="btn btn-primary">See my work</a>
+    <a href="https://github.com/c4wnh7vr8k-cell" target="_blank" class="btn btn-ghost">GitHub ↗</a>
+  </div>
+  <div class="hero-meta reveal" style="transition-delay:0.3s">
+    <div class="hero-meta-item">
+      <span class="hero-meta-label">Stack</span>
+      <span class="hero-meta-val"><strong>Flutter</strong> + Dart</span>
+    </div>
+    <div class="hero-meta-item">
+      <span class="hero-meta-label">Specialty</span>
+      <span class="hero-meta-val"><strong>AI Integration</strong></span>
+    </div>
+    <div class="hero-meta-item">
+      <span class="hero-meta-label">Status</span>
+      <span class="hero-meta-val" style="color:var(--accent)"><strong>Open to work</strong></span>
+    </div>
+  </div>
+  <div class="scroll-hint reveal" style="transition-delay:0.4s">scroll to explore</div>
 </div>
 
-<section>
-  <div class="section-label">Stats</div>
-  <div class="stats">
-    <div class="stat"><div class="stat-num">2+</div><div class="stat-label">Apps built</div></div>
-    <div class="stat"><div class="stat-num">AI</div><div class="stat-label">Integrated</div></div>
-    <div class="stat"><div class="stat-num">16</div><div class="stat-label">Years old</div></div>
+<section id="about">
+  <div class="section-header reveal">
+    <span class="section-num">01</span>
+    <h2 class="section-title">About</h2>
+    <div class="section-line"></div>
   </div>
 
-  <div class="section-label">Skills</div>
-  <div class="skills-grid">
-    <span class="skill-tag main">Flutter</span>
-    <span class="skill-tag main">Dart</span>
-    <span class="skill-tag main">AI Integration</span>
-    <span class="skill-tag">Firebase</span>
-    <span class="skill-tag">REST API</span>
-    <span class="skill-tag">Figma</span>
-    <span class="skill-tag">Git</span>
-    <span class="skill-tag">UI/UX</span>
+  <div class="stats-row reveal">
+    <div class="stat-box">
+      <div class="stat-n">2+</div>
+      <div class="stat-l">Apps shipped</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-n">AI</div>
+      <div class="stat-l">Integrated</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-n">16</div>
+      <div class="stat-l">Years old</div>
+    </div>
+  </div>
+
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <p>I'm <strong>Asadbek</strong> — a self-taught Flutter developer from Tashkent who started coding to build things that actually work, not just look good on a CV.</p>
+      <p>I build <strong>mobile apps with AI baked in</strong> — not just a ChatGPT wrapper, but real intelligence that improves the user experience at every step.</p>
+      <p>Currently 16, already shipped two apps with real users. Always learning, always building.</p>
+    </div>
+    <div class="skills-list reveal" style="transition-delay:0.1s">
+      <div class="skill-row"><span class="skill-name">Flutter</span><span class="skill-level">Primary</span></div>
+      <div class="skill-row"><span class="skill-name">Dart</span><span class="skill-level">Primary</span></div>
+      <div class="skill-row"><span class="skill-name">AI Integration</span><span class="skill-level">Core skill</span></div>
+      <div class="skill-row"><span class="skill-name">Firebase</span><span class="skill-level">Backend</span></div>
+      <div class="skill-row"><span class="skill-name">REST API</span><span class="skill-level">Networking</span></div>
+      <div class="skill-row"><span class="skill-name">Figma → Code</span><span class="skill-level">UI/UX</span></div>
+    </div>
   </div>
 </section>
 
 <section id="projects">
-  <div class="section-label">Projects</div>
-  <div class="projects">
-    <div class="project">
-      <div class="project-info">
-        <h3>Nexus — AI Education App</h3>
-        <p>Test-taking platform with timer-based scoring, leaderboard, and AI-powered result analysis. Admin panel for test management.</p>
-        <div class="project-tags">
-          <span class="tag">Flutter</span>
-          <span class="tag">AI</span>
-          <span class="tag">Dart</span>
-        </div>
+  <div class="section-header reveal">
+    <span class="section-num">02</span>
+    <h2 class="section-title">Projects</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="projects-grid reveal">
+    <div class="project-card">
+      <div class="project-top">
+        <span class="project-index">001</span>
+        <a href="https://github.com/c4wnh7vr8k-cell/myapp" target="_blank" class="project-arrow">↗</a>
       </div>
-      <a href="https://github.com/c4wnh7vr8k-cell/myapp" target="_blank" class="project-link">View →</a>
+      <h3 class="project-name">Nexus</h3>
+      <p class="project-desc">AI-powered education platform. Timer-based test scoring, live leaderboard, and AI result analysis that tells you exactly where you're falling behind — not just your score.</p>
+      <div class="project-tags">
+        <span class="ptag main">Flutter</span>
+        <span class="ptag main">AI</span>
+        <span class="ptag">Dart</span>
+        <span class="ptag">Admin Panel</span>
+      </div>
     </div>
-    <div class="project">
-      <div class="project-info">
-        <h3>Eduflix — Learning Platform</h3>
-        <p>Mobile learning app with clean UI built from Figma design. Full pixel-perfect implementation.</p>
-        <div class="project-tags">
-          <span class="tag">Flutter</span>
-          <span class="tag">Figma</span>
-          <span class="tag">Dart</span>
-        </div>
+    <div class="project-card">
+      <div class="project-top">
+        <span class="project-index">002</span>
+        <a href="https://github.com/c4wnh7vr8k-cell" target="_blank" class="project-arrow">↗</a>
       </div>
-      <a href="https://github.com/c4wnh7vr8k-cell" target="_blank" class="project-link">View →</a>
+      <h3 class="project-name">Eduflix</h3>
+      <p class="project-desc">Mobile learning app built pixel-perfect from a Figma design. Clean layout, smooth transitions, and a UI that actually makes you want to study.</p>
+      <div class="project-tags">
+        <span class="ptag main">Flutter</span>
+        <span class="ptag">Figma</span>
+        <span class="ptag">Dart</span>
+        <span class="ptag">UI/UX</span>
+      </div>
     </div>
   </div>
 </section>
 
 <section id="contact">
-  <div class="contact-card">
-    <h2>Let's work together</h2>
-    <p>Open for freelance projects and collaborations. I build fast and deliver clean code.</p>
-    <div class="contact-links">
-      <a href="https://t.me/tmeAsadbek" class="btn btn-primary">Telegram</a>
-      <a href="https://github.com/c4wnh7vr8k-cell" target="_blank" class="btn btn-ghost">GitHub</a>
+  <div class="section-header reveal">
+    <span class="section-num">03</span>
+    <h2 class="section-title">Contact</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="contact-wrap reveal">
+    <div class="contact-inner">
+      <h2 class="contact-title">Let's build<br>something real.</h2>
+      <p class="contact-sub">Open for freelance projects, collaborations, and anything interesting. Fast delivery, clean code, no excuses.</p>
+      <div class="contact-btns">
+        <a href="https://t.me/tmeAsadbek" class="btn btn-primary">Telegram ↗</a>
+        <a href="https://github.com/asadbekabdulboqiyev" target="_blank" class="btn btn-ghost">GitHub ↗</a>
+      </div>
     </div>
   </div>
 </section>
 
 <footer>
-  Built by Asadbek · Tashkent, Uzbekistan · 2025
+  <span class="footer-left">Asadbek · Tashkent · 2025</span>
+  <span class="footer-right">Flutter Developer</span>
 </footer>
 
+<script>
+const cur=document.getElementById('cur'),ring=document.getElementById('ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx-3+'px';cur.style.top=my-3+'px'});
+function animRing(){rx+=(mx-rx)*0.12;ry+=(my-ry)*0.12;ring.style.left=rx-14+'px';ring.style.top=ry-14+'px';requestAnimationFrame(animRing)}
+animRing();
+document.querySelectorAll('a,button').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{ring.style.width='44px';ring.style.height='44px';ring.style.opacity='0.6'});
+  el.addEventListener('mouseleave',()=>{ring.style.width='28px';ring.style.height='28px';ring.style.opacity='1'});
+});
+
+const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')})},{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
 </body>
 </html>
