@@ -56,7 +56,7 @@ All design tokens are in `:root` at the top of `<style>`:
 | Name | `<div class="logo">`, `<footer>`, hero title |
 | Job title / description | `.hero-title`, `.hero-sub` |
 | Telegram link | `href="https://t.me/tmeAsadbek"` |
-| GitHub link | all `href="https://github.com/c4wnh7vr8k-cell"` |
+| GitHub link | all `href="https://github.com/asadbekabdulboqiyev"` |
 | Projects | `.project-card` blocks in `#projects` section |
 | Skills | `.skill-row` blocks in `#about` section |
 | Stats | `.stat-box` blocks |
