@@ -4,7 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Asadbek — Flutter Developer · 3D Portfolio</title>
-<meta name="description" content="Asadbek — 16-year-old Flutter developer from Tashkent. AI-powered mobile apps. Explore a 3D portfolio journey.">
+<meta name="description" content="Asadbek — 16-year-old Flutter developer from Tashkent. 12+ real products: marketplaces, fintech, games, AI tools. Explore a 3D portfolio journey.">
+<meta property="og:title" content="Asadbek — Flutter Developer">
+<meta property="og:description" content="12+ real Flutter products with AI inside. Explore them in 3D.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23080808'/%3E%3Ctext x='32' y='44' font-family='Arial,sans-serif' font-size='36' font-weight='800' fill='%2397C459' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -37,21 +39,20 @@ body{
 }
 a{color:inherit;text-decoration:none}
 
-/* === 3D CANVAS (WebGL scene sits behind all content) === */
+/* === 3D CANVAS (fixed ambient scene behind all content) === */
 #scene3d{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
 .content{position:relative;z-index:1}
 
-/* GRAIN — fixed pseudo-element only (no GPU churn on scroll) */
+/* GRAIN */
 body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:999;opacity:0.4}
-
-/* CINEMATIC VIGNETTE */
+/* VIGNETTE */
 body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:998;
   background:radial-gradient(125% 95% at 50% 38%, transparent 62%, rgba(0,0,0,0.5) 100%)}
 
 /* SCROLL PROGRESS */
 #progress{position:fixed;top:0;left:0;height:2px;width:0;background:var(--accent);z-index:200;box-shadow:0 0 12px rgba(151,196,89,0.6)}
 
-/* CURSOR (fine pointers only) */
+/* CURSOR */
 .cursor{position:fixed;width:6px;height:6px;background:var(--accent);border-radius:50%;pointer-events:none;z-index:9999;mix-blend-mode:difference}
 .cursor-ring{position:fixed;width:28px;height:28px;border:1px solid rgba(151,196,89,0.4);border-radius:50%;pointer-events:none;z-index:9998}
 @media (pointer:coarse){.cursor,.cursor-ring{display:none}}
@@ -65,6 +66,8 @@ nav{display:flex;justify-content:space-between;align-items:center;padding:1.5rem
 .nav-links a::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:1px;background:var(--accent);transition:width 0.2s}
 .nav-links a:hover{color:var(--text)}
 .nav-links a:hover::after{width:100%}
+.nav-links a.active{color:var(--text)}
+.nav-links a.active::after{width:100%}
 
 /* HERO */
 .hero{min-height:100dvh;display:flex;flex-direction:column;justify-content:center;padding:8rem 3rem 4rem;max-width:1100px;margin:0 auto;position:relative}
@@ -75,19 +78,21 @@ nav{display:flex;justify-content:space-between;align-items:center;padding:1.5rem
 .hero-title{font-family:var(--display);font-size:clamp(3rem,7vw,6rem);font-weight:800;line-height:1.0;letter-spacing:-3px;margin-bottom:1rem}
 .hero-title .line2{color:var(--muted);display:block}
 .hero-title .accent{color:var(--accent);text-shadow:0 0 40px rgba(151,196,89,0.35)}
-.hero-sub{font-size:16px;color:var(--muted2);max-width:420px;margin-top:1.5rem}
+.hero-sub{font-size:16px;color:var(--muted2);max-width:440px;margin-top:1.5rem}
+.hero-sub strong{color:var(--text);font-weight:600}
 .hero-meta{display:flex;align-items:center;gap:2rem;margin-top:3rem;padding-top:3rem;border-top:0.5px solid var(--border)}
 .hero-meta-item{display:flex;flex-direction:column;gap:2px}
 .hero-meta-label{font-family:var(--mono);font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px}
 .hero-meta-val{font-size:14px;color:var(--muted2)}
 .hero-meta-val strong{color:var(--text);font-weight:500}
 .hero-cta{display:flex;gap:10px;margin-top:2.5rem}
-.btn{padding:11px 22px;border-radius:6px;font-size:13px;font-weight:500;cursor:pointer;transition:transform 0.18s cubic-bezier(.16,1,.3,1),background 0.18s,color 0.18s,border-color 0.18s;display:inline-flex;align-items:center;gap:8px;font-family:var(--body);will-change:transform}
+.btn{padding:12px 24px;border-radius:6px;font-size:13px;font-weight:500;cursor:pointer;transition:transform 0.18s cubic-bezier(.16,1,.3,1),background 0.18s,color 0.18s,border-color 0.18s;display:inline-flex;align-items:center;gap:8px;font-family:var(--body);will-change:transform}
 .btn-primary{background:var(--accent);color:#173404;border:none}
 .btn-primary:hover{background:#aad36e;transform:translateY(-1px)}
 .btn-ghost{background:rgba(8,8,8,0.35);color:var(--muted2);border:0.5px solid var(--border2)}
 .btn-ghost:hover{color:var(--text);border-color:rgba(255,255,255,0.25);background:var(--bg3)}
 .btn:active{transform:scale(0.97)}
+.btn-sm{padding:8px 14px;font-size:12px}
 
 /* ENTRANCE */
 .in{opacity:0;animation:heroIn 0.9s cubic-bezier(.16,1,.3,1) forwards}
@@ -101,6 +106,14 @@ nav{display:flex;justify-content:space-between;align-items:center;padding:1.5rem
 /* SCROLL HINT */
 .scroll-hint{position:absolute;bottom:3rem;left:3rem;font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;display:flex;align-items:center;gap:10px;animation-delay:0.8s}
 .scroll-hint::before{content:'';display:block;width:30px;height:0.5px;background:var(--muted)}
+
+/* MARQUEE — skills strip (promotes the stack) */
+.marquee{overflow:hidden;padding:1.1rem 0;border-top:0.5px solid var(--border);border-bottom:0.5px solid var(--border);position:relative;z-index:1;background:rgba(8,8,8,0.4);backdrop-filter:blur(6px)}
+.marquee-track{display:flex;gap:3rem;white-space:nowrap;width:max-content;animation:marq 30s linear infinite}
+.marquee-track span{font-family:var(--mono);font-size:12px;color:var(--muted2);letter-spacing:2.5px;text-transform:uppercase}
+.marquee-track i{color:var(--accent);font-style:normal;font-size:8px;align-self:center}
+@keyframes marq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion: reduce){.marquee-track{animation:none}}
 
 /* SECTIONS */
 section{padding:6rem 3rem;max-width:1100px;margin:0 auto;position:relative}
@@ -118,38 +131,64 @@ section{padding:6rem 3rem;max-width:1100px;margin:0 auto;position:relative}
 .skill-row:hover{border-color:var(--accent2);background:var(--accent3);transform:translateX(3px)}
 .skill-name{font-size:13px;font-weight:500}
 .skill-level{font-family:var(--mono);font-size:11px;color:var(--accent)}
+.skill-bar{height:2px;background:var(--bg4);border-radius:2px;overflow:hidden;margin-top:6px}
+.skill-bar i{display:block;height:100%;background:linear-gradient(90deg,var(--accent2),var(--accent));border-radius:2px;width:0;transition:width 1.2s cubic-bezier(.16,1,.3,1)}
 
-/* PROJECTS */
-.projects-grid{display:grid;gap:1px;background:var(--border);border:0.5px solid var(--border);border-radius:12px;overflow:hidden;perspective:1200px}
-.project-card{background:rgba(17,17,17,0.82);backdrop-filter:blur(6px);padding:2rem;transition:transform 0.2s cubic-bezier(.16,1,.3,1),background 0.15s;position:relative;overflow:hidden;transform-style:preserve-3d;will-change:transform}
-.project-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--accent2),transparent);opacity:0;transition:opacity 0.3s}
-.project-card:hover{background:var(--bg3)}
-.project-card:hover::before{opacity:1}
-.project-card::after{content:'';position:absolute;inset:0;background:radial-gradient(500px 200px at var(--gx,50%) var(--gy,0%),rgba(151,196,89,0.07),transparent 60%);opacity:0;transition:opacity 0.3s;pointer-events:none}
-.project-card:hover::after{opacity:1}
-.project-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem}
-.project-index{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:1px}
-.project-arrow{font-size:18px;color:var(--muted);transition:all 0.2s}
-.project-card:hover .project-arrow{color:var(--accent);transform:translate(3px,-3px)}
-.project-name{font-family:var(--display);font-size:20px;font-weight:700;letter-spacing:-0.5px;margin-bottom:8px}
-.project-desc{font-size:14px;color:var(--muted2);line-height:1.7;margin-bottom:1.5rem}
-.project-tags{display:flex;gap:6px;flex-wrap:wrap}
-.ptag{font-family:var(--mono);font-size:10px;padding:4px 10px;border-radius:4px;background:var(--bg4);color:var(--muted2);border:0.5px solid var(--border);letter-spacing:0.5px;text-transform:uppercase}
-.ptag.main{background:var(--accent3);color:var(--accent);border-color:var(--accent2)}
-
-/* STATS ROW */
+/* STATS */
 .stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:0.5px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:5rem}
-.stat-box{background:rgba(17,17,17,0.72);backdrop-filter:blur(6px);padding:2rem;text-align:center}
+.stat-box{background:rgba(17,17,17,0.72);backdrop-filter:blur(6px);padding:2rem;text-align:center;position:relative}
+.stat-box::after{content:'';position:absolute;left:50%;bottom:0;transform:translateX(-50%);width:0;height:2px;background:var(--accent);transition:width 0.4s}
+.stat-box:hover::after{width:60%}
 .stat-n{font-family:var(--display);font-size:3rem;font-weight:800;color:var(--accent);line-height:1;letter-spacing:-2px}
 .stat-l{font-family:var(--mono);font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:2px;margin-top:8px}
+
+/* PROJECTS — interactive 3D carousel */
+.proj-stage{display:grid;grid-template-columns:1.7fr 1fr;gap:2rem;align-items:stretch}
+.proj3d-wrap{position:relative;height:480px;border:0.5px solid var(--border);border-radius:12px;overflow:hidden;background:
+  radial-gradient(600px 400px at 50% 30%, rgba(151,196,89,0.07), transparent 70%),
+  radial-gradient(500px 300px at 80% 90%, rgba(74,157,255,0.05), transparent 70%),
+  rgba(10,10,10,0.5)}
+#projects3d{position:absolute;inset:0;width:100%;height:100%;touch-action:none;cursor:grab;display:block}
+#projects3d:active{cursor:grabbing}
+.plabel{position:absolute;transform:translate(-50%,-50%);font-family:var(--mono);font-size:10px;color:var(--muted2);letter-spacing:1px;text-transform:uppercase;padding:5px 12px;border:0.5px solid var(--border2);border-radius:20px;background:rgba(8,8,8,0.72);backdrop-filter:blur(6px);cursor:pointer;transition:color 0.15s,border-color 0.15s,opacity 0.2s,background 0.15s;white-space:nowrap;z-index:2;will-change:transform;opacity:0}
+.plabel:hover{color:var(--accent);border-color:var(--accent2)}
+.plabel.active{color:var(--accent);border-color:var(--accent2);background:rgba(151,196,89,0.14)}
+.plabel i{font-style:normal;margin-right:6px;color:var(--accent);font-size:9px}
+.proj3d-hint{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;z-index:2;pointer-events:none;opacity:0.7}
+.proj-count{font-family:var(--mono);font-size:10px;color:var(--accent);letter-spacing:2px;margin-bottom:0.6rem}
+
+/* PROJECT DETAIL PANEL */
+.proj-detail{display:flex;flex-direction:column;justify-content:space-between;border:0.5px solid var(--border);border-radius:12px;background:rgba(17,17,17,0.72);backdrop-filter:blur(6px);padding:2rem;min-height:480px;position:relative;overflow:hidden}
+.proj-detail::before{content:'';position:absolute;inset:0;background:radial-gradient(400px 200px at var(--gx,80%) var(--gy,0%),rgba(151,196,89,0.06),transparent 60%);pointer-events:none}
+.detail-index{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:2px;margin-bottom:0.8rem}
+.detail-index b{color:var(--accent)}
+.detail-name{font-family:var(--display);font-size:clamp(1.5rem,3vw,2.2rem);font-weight:800;letter-spacing:-1px;line-height:1.1;margin-bottom:1rem}
+.detail-desc{font-size:14px;color:var(--muted2);line-height:1.75;margin-bottom:1.5rem}
+.detail-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1.5rem}
+.ptag{font-family:var(--mono);font-size:10px;padding:4px 10px;border-radius:4px;background:var(--bg4);color:var(--muted2);border:0.5px solid var(--border);letter-spacing:0.5px;text-transform:uppercase}
+.ptag.main{background:var(--accent3);color:var(--accent);border-color:var(--accent2)}
+.detail-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:auto}
+.detail-nav{display:flex;justify-content:space-between;align-items:center;margin-top:1.5rem;padding-top:1.2rem;border-top:0.5px solid var(--border)}
+.detail-nav button{background:none;border:none;color:var(--muted);font-family:var(--mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;display:flex;align-items:center;gap:8px;transition:color 0.15s}
+.detail-nav button:hover{color:var(--accent)}
+
+/* projects fallback (when WebGL unavailable) */
+.proj-fallback{display:none;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1px;background:var(--border);border:0.5px solid var(--border);border-radius:12px;overflow:hidden}
+.proj-fallback a{background:var(--bg2);padding:1.4rem;transition:background 0.15s}
+.proj-fallback a:hover{background:var(--bg3)}
+.proj-fallback h3{font-family:var(--display);font-size:15px;margin-bottom:6px}
+.proj-fallback p{font-family:var(--mono);font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
 
 /* CONTACT */
 .contact-wrap{border:0.5px solid var(--border);border-radius:12px;overflow:hidden}
 .contact-inner{padding:4rem;background:rgba(17,17,17,0.72);backdrop-filter:blur(6px);text-align:center;position:relative}
-.contact-inner::before{content:'AVAILABLE';position:absolute;top:2rem;right:2rem;font-family:var(--mono);font-size:10px;color:var(--accent);letter-spacing:3px;border:0.5px solid var(--accent2);padding:4px 10px;border-radius:4px}
+.contact-inner::before{content:'AVAILABLE FOR WORK';position:absolute;top:2rem;right:2rem;font-family:var(--mono);font-size:10px;color:var(--accent);letter-spacing:3px;border:0.5px solid var(--accent2);padding:4px 10px;border-radius:4px}
 .contact-title{font-family:var(--display);font-size:clamp(2rem,4vw,3.5rem);font-weight:800;letter-spacing:-2px;margin-bottom:1rem}
-.contact-sub{font-size:15px;color:var(--muted2);max-width:400px;margin:0 auto 2.5rem}
-.contact-btns{display:flex;gap:12px;justify-content:center}
+.contact-sub{font-size:15px;color:var(--muted2);max-width:420px;margin:0 auto 2.5rem}
+.contact-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.socials{display:flex;gap:10px;justify-content:center;margin-top:2rem}
+.social-chip{font-family:var(--mono);font-size:11px;letter-spacing:1px;padding:8px 16px;border:0.5px solid var(--border2);border-radius:20px;color:var(--muted2);transition:all 0.15s;background:rgba(8,8,8,0.4)}
+.social-chip:hover{color:var(--accent);border-color:var(--accent2)}
 
 /* FOOTER */
 footer{padding:2rem 3rem;border-top:0.5px solid var(--border);display:flex;justify-content:space-between;align-items:center;position:relative;z-index:1}
@@ -162,6 +201,8 @@ footer{padding:2rem 3rem;border-top:0.5px solid var(--border);display:flex;justi
 
 /* NO-3D FALLBACK */
 .no-3d .hero::before{content:'';position:absolute;inset:0;background:radial-gradient(600px 400px at 80% 40%,rgba(151,196,89,0.14),transparent 65%);z-index:-1}
+.no-3d .proj-stage{display:none}
+.no-3d .proj-fallback{display:grid}
 
 @media(max-width:768px){
   nav{padding:1rem 1.25rem}
@@ -169,16 +210,19 @@ footer{padding:2rem 3rem;border-top:0.5px solid var(--border);display:flex;justi
   .hero{padding:7rem 1.25rem 4rem}
   .hero-title{letter-spacing:-1.5px}
   .hero-meta{flex-wrap:wrap;gap:1.5rem}
+  .marquee-track{gap:2rem}
   section{padding:4rem 1.25rem}
   .about-grid{grid-template-columns:1fr}
   .stats-row{grid-template-columns:repeat(3,1fr)}
+  .proj-stage{grid-template-columns:1fr}
+  .proj3d-wrap{height:400px}
+  .proj-detail{min-height:auto}
   footer{flex-direction:column;gap:0.5rem;text-align:center;padding:1.5rem}
 }
 
 @media (prefers-reduced-motion: reduce){
   .in,.hero-eyebrow,.hero-title,.hero-sub,.hero-cta,.hero-meta,.scroll-hint{animation:none;opacity:1;transform:none}
   .reveal{opacity:1;transform:none;transition:none}
-  .project-card{transition:none}
   #progress{display:none}
 }
 </style>
@@ -195,9 +239,9 @@ footer{padding:2rem 3rem;border-top:0.5px solid var(--border);display:flex;justi
 <nav>
   <div class="logo">As<em>a</em>dbek</div>
   <div class="nav-links">
-    <a href="#about">about</a>
-    <a href="#projects">projects</a>
-    <a href="#contact">contact</a>
+    <a href="#about" data-nav="about">about</a>
+    <a href="#projects" data-nav="projects">projects</a>
+    <a href="#contact" data-nav="contact">contact</a>
     <a href="https://github.com/asadbekabdulboqiyev" target="_blank">github ↗</a>
   </div>
 </nav>
@@ -215,11 +259,11 @@ footer{padding:2rem 3rem;border-top:0.5px solid var(--border);display:flex;justi
     </h1>
   </div>
   <p class="hero-sub in">
-    16-year-old developer crafting fast, clean Flutter apps with real AI inside them. Not templates — real products.
+    <strong>12+ real products shipped</strong> — marketplaces, fintech, games and AI tools built with Flutter. Not templates — real apps people use. <strong>Yours could be next.</strong>
   </p>
   <div class="hero-cta in">
     <a href="#projects" class="btn btn-primary" data-magnetic>See my work</a>
-    <a href="https://github.com/asadbekabdulboqiyev" target="_blank" class="btn btn-ghost" data-magnetic>GitHub ↗</a>
+    <a href="https://t.me/tmeAsadbek" class="btn btn-ghost" data-magnetic>Let's talk ↗</a>
   </div>
   <div class="parallax" data-speed="0.05">
     <div class="hero-meta in">
@@ -240,6 +284,14 @@ footer{padding:2rem 3rem;border-top:0.5px solid var(--border);display:flex;justi
   <div class="scroll-hint in">scroll to explore</div>
 </div>
 
+<!-- SKILLS MARQUEE -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <span>Flutter</span><i>◆</i><span>Dart</span><i>◆</i><span>AI Integration</span><i>◆</i><span>Firebase</span><i>◆</i><span>FastAPI</span><i>◆</i><span>REST API</span><i>◆</i><span>Python</span><i>◆</i><span>Flame Engine</span><i>◆</i><span>Figma</span><i>◆</i><span>SQLite</span><i>◆</i><span>Git</span><i>◆</i><span>Supabase</span><i>◆</i>
+    <span>Flutter</span><i>◆</i><span>Dart</span><i>◆</i><span>AI Integration</span><i>◆</i><span>Firebase</span><i>◆</i><span>FastAPI</span><i>◆</i><span>REST API</span><i>◆</i><span>Python</span><i>◆</i><span>Flame Engine</span><i>◆</i><span>Figma</span><i>◆</i><span>SQLite</span><i>◆</i><span>Git</span><i>◆</i><span>Supabase</span><i>◆</i>
+  </div>
+</div>
+
 <section id="about">
   <div class="section-header reveal">
     <span class="section-num">01</span>
@@ -249,15 +301,15 @@ footer{padding:2rem 3rem;border-top:0.5px solid var(--border);display:flex;justi
 
   <div class="stats-row reveal">
     <div class="stat-box">
-      <div class="stat-n">12+</div>
-      <div class="stat-l">Projects built</div>
+      <div class="stat-n"><span class="count" data-target="12">0</span>+</div>
+      <div class="stat-l">Projects shipped</div>
     </div>
     <div class="stat-box">
-      <div class="stat-n">AI</div>
-      <div class="stat-l">Integrated</div>
+      <div class="stat-n"><span class="count" data-target="9">0</span></div>
+      <div class="stat-l">Core skills</div>
     </div>
     <div class="stat-box">
-      <div class="stat-n">16</div>
+      <div class="stat-n"><span class="count" data-target="16">0</span></div>
       <div class="stat-l">Years old</div>
     </div>
   </div>
@@ -269,15 +321,15 @@ footer{padding:2rem 3rem;border-top:0.5px solid var(--border);display:flex;justi
       <p>12+ projects shipped, including marketplaces, fintech apps, games, and AI-powered tools. Always learning, always building.</p>
     </div>
     <div class="skills-list reveal" style="transition-delay:0.1s">
-      <div class="skill-row"><span class="skill-name">Flutter</span><span class="skill-level">Primary</span></div>
-      <div class="skill-row"><span class="skill-name">Dart</span><span class="skill-level">Primary</span></div>
-      <div class="skill-row"><span class="skill-name">AI Integration</span><span class="skill-level">Core skill</span></div>
-      <div class="skill-row"><span class="skill-name">Firebase</span><span class="skill-level">Backend</span></div>
-      <div class="skill-row"><span class="skill-name">FastAPI</span><span class="skill-level">Backend</span></div>
-      <div class="skill-row"><span class="skill-name">REST API</span><span class="skill-level">Networking</span></div>
-      <div class="skill-row"><span class="skill-name">Python</span><span class="skill-level">Bot Dev</span></div>
-      <div class="skill-row"><span class="skill-name">Flame Engine</span><span class="skill-level">Game Dev</span></div>
-      <div class="skill-row"><span class="skill-name">Figma → Code</span><span class="skill-level">UI/UX</span></div>
+      <div class="skill-row"><span class="skill-name">Flutter</span><span class="skill-level">Primary</span><div class="skill-bar"><i style="width:95%" data-w="95%"></i></div></div>
+      <div class="skill-row"><span class="skill-name">Dart</span><span class="skill-level">Primary</span><div class="skill-bar"><i style="width:92%" data-w="92%"></i></div></div>
+      <div class="skill-row"><span class="skill-name">AI Integration</span><span class="skill-level">Core skill</span><div class="skill-bar"><i style="width:88%" data-w="88%"></i></div></div>
+      <div class="skill-row"><span class="skill-name">Firebase</span><span class="skill-level">Backend</span><div class="skill-bar"><i style="width:80%" data-w="80%"></i></div></div>
+      <div class="skill-row"><span class="skill-name">FastAPI</span><span class="skill-level">Backend</span><div class="skill-bar"><i style="width:75%" data-w="75%"></i></div></div>
+      <div class="skill-row"><span class="skill-name">REST API</span><span class="skill-level">Networking</span><div class="skill-bar"><i style="width:82%" data-w="82%"></i></div></div>
+      <div class="skill-row"><span class="skill-name">Python</span><span class="skill-level">Bot Dev</span><div class="skill-bar"><i style="width:78%" data-w="78%"></i></div></div>
+      <div class="skill-row"><span class="skill-name">Flame Engine</span><span class="skill-level">Game Dev</span><div class="skill-bar"><i style="width:70%" data-w="70%"></i></div></div>
+      <div class="skill-row"><span class="skill-name">Figma → Code</span><span class="skill-level">UI/UX</span><div class="skill-bar"><i style="width:85%" data-w="85%"></i></div></div>
     </div>
   </div>
 </section>
@@ -288,175 +340,49 @@ footer{padding:2rem 3rem;border-top:0.5px solid var(--border);display:flex;justi
     <h2 class="section-title">Projects</h2>
     <div class="section-line"></div>
   </div>
-  <div class="projects-grid reveal">
-    <div class="project-card">
-      <div class="project-top">
-        <span class="project-index">001</span>
-        <a href="https://github.com/asadbekabdulboqiyev/nesto-uz" target="_blank" class="project-arrow">↗</a>
+
+  <div class="proj-stage reveal">
+    <div class="proj3d-wrap" id="projWrap">
+      <canvas id="projects3d" aria-label="3D project gallery"></canvas>
+      <div class="plabels" id="plabels"></div>
+      <div class="proj3d-hint">drag to spin · click an object</div>
+    </div>
+
+    <div class="proj-detail" id="projDetail">
+      <div>
+        <div class="proj-count">12 PROJECTS · 3D GALLERY</div>
+        <div class="detail-index"><b id="dIndex">001</b> / 012</div>
+        <h3 class="detail-name" id="dName">Nesto UZ</h3>
+        <p class="detail-desc" id="dDesc"></p>
+        <div class="detail-tags" id="dTags"></div>
       </div>
-      <h3 class="project-name">Nesto UZ</h3>
-      <p class="project-desc">O'zbekistondagi ish va uy-joy bozori ilovasi. AI bilan kuchaytirilgan — real estate va job marketplace bir platformada.</p>
-      <div class="project-tags">
-        <span class="ptag main">Flutter</span>
-        <span class="ptag main">AI</span>
-        <span class="ptag">Dart</span>
-        <span class="ptag">Marketplace</span>
+      <div>
+        <div class="detail-actions">
+          <a id="dLink" class="btn btn-primary btn-sm" target="_blank" rel="noopener">View on GitHub ↗</a>
+          <button class="btn btn-ghost btn-sm" id="dSpin">Spin it</button>
+        </div>
+        <div class="detail-nav">
+          <button id="dPrev">← Prev</button>
+          <button id="dNext">Next →</button>
+        </div>
       </div>
     </div>
-    <div class="project-card">
-      <div class="project-top">
-        <span class="project-index">002</span>
-        <a href="https://github.com/asadbekabdulboqiyev/hisob" target="_blank" class="project-arrow">↗</a>
-      </div>
-      <h3 class="project-name">Hisob</h3>
-      <p class="project-desc">Shaxsiy moliya va byudjet nazorati ilovasi. Flutter + FastAPI backend bilan — xarajatlarni kuzatib boring, o'zgartiring.</p>
-      <div class="project-tags">
-        <span class="ptag main">Flutter</span>
-        <span class="ptag main">FastAPI</span>
-        <span class="ptag">Dart</span>
-        <span class="ptag">Finance</span>
-      </div>
-    </div>
-    <div class="project-card">
-      <div class="project-top">
-        <span class="project-index">003</span>
-        <a href="https://github.com/asadbekabdulboqiyev/florist-app" target="_blank" class="project-arrow">↗</a>
-      </div>
-      <h3 class="project-name">Bloom & Petal</h3>
-      <p class="project-desc">Premium florist e-commerce app. Firebase backend, beautiful UI, real-time order tracking va delivery system bilan to'liq shop.</p>
-      <div class="project-tags">
-        <span class="ptag main">Flutter</span>
-        <span class="ptag main">Firebase</span>
-        <span class="ptag">E-Commerce</span>
-        <span class="ptag">Dart</span>
-      </div>
-    </div>
-    <div class="project-card">
-      <div class="project-top">
-        <span class="project-index">004</span>
-        <a href="https://github.com/asadbekabdulboqiyev/zer-language-ide" target="_blank" class="project-arrow">↗</a>
-      </div>
-      <h3 class="project-name">Zer Language IDE</h3>
-      <p class="project-desc">Zer dasturlash tili uchun Flutter-based IDE. Syntax highlighting, code editing va real-time execution — hammasi mobile'da.</p>
-      <div class="project-tags">
-        <span class="ptag main">Flutter</span>
-        <span class="ptag">IDE</span>
-        <span class="ptag">Dart</span>
-        <span class="ptag">Developer Tool</span>
-      </div>
-    </div>
-    <div class="project-card">
-      <div class="project-top">
-        <span class="project-index">005</span>
-        <a href="https://github.com/asadbekabdulboqiyev/tinchlik" target="_blank" class="project-arrow">↗</a>
-      </div>
-      <h3 class="project-name">Tinchlik</h3>
-      <p class="project-desc">Meditation and mindfulness app. Ongni tinchlantiruvchi ilova — guided meditations, breathing exercises, va daily mindfulness tracker.</p>
-      <div class="project-tags">
-        <span class="ptag main">Flutter</span>
-        <span class="ptag">Wellness</span>
-        <span class="ptag">Dart</span>
-        <span class="ptag">UI/UX</span>
-      </div>
-    </div>
-    <div class="project-card">
-      <div class="project-top">
-        <span class="project-index">006</span>
-        <a href="https://github.com/asadbekabdulboqiyev/mini-metro-runner" target="_blank" class="project-arrow">↗</a>
-      </div>
-      <h3 class="project-name">Mini Metro Runner</h3>
-      <p class="project-desc">Endless runner game built with Flutter va Flame engine. Tezlik, to'siqlar, va high score — o'ynash oson, yutish qiyin.</p>
-      <div class="project-tags">
-        <span class="ptag main">Flutter</span>
-        <span class="ptag main">Flame</span>
-        <span class="ptag">Game</span>
-        <span class="ptag">Dart</span>
-      </div>
-    </div>
-    <div class="project-card">
-      <div class="project-top">
-        <span class="project-index">007</span>
-        <a href="https://github.com/asadbekabdulboqiyev/weather-app" target="_blank" class="project-arrow">↗</a>
-      </div>
-      <h3 class="project-name">Weather App</h3>
-      <p class="project-desc">Beautiful Flutter weather application. Real-time weather data, forecasts, va chiroyli animations bilan ob-havo ilovasi.</p>
-      <div class="project-tags">
-        <span class="ptag main">Flutter</span>
-        <span class="ptag">API</span>
-        <span class="ptag">Dart</span>
-        <span class="ptag">Weather</span>
-      </div>
-    </div>
-    <div class="project-card">
-      <div class="project-top">
-        <span class="project-index">008</span>
-        <a href="https://github.com/asadbekabdulboqiyev/nexpay-business" target="_blank" class="project-arrow">↗</a>
-      </div>
-      <h3 class="project-name">NexPay Business</h3>
-      <p class="project-desc">Business payment va invoicing app. To'lov tizimi, invoice yaratish, va moliyaviy hisobotlar — hammasi bir joyda.</p>
-      <div class="project-tags">
-        <span class="ptag main">Flutter</span>
-        <span class="ptag">Fintech</span>
-        <span class="ptag">Dart</span>
-        <span class="ptag">Payments</span>
-      </div>
-    </div>
-    <div class="project-card">
-      <div class="project-top">
-        <span class="project-index">009</span>
-        <a href="https://github.com/asadbekabdulboqiyev/social-hub" target="_blank" class="project-arrow">↗</a>
-      </div>
-      <h3 class="project-name">Social Hub</h3>
-      <p class="project-desc">Flutter social networking application. Post sharing, real-time messaging, va community features — ijtimoiy tarmoq ilovasi.</p>
-      <div class="project-tags">
-        <span class="ptag main">Flutter</span>
-        <span class="ptag">Social</span>
-        <span class="ptag">Dart</span>
-        <span class="ptag">Real-time</span>
-      </div>
-    </div>
-    <div class="project-card">
-      <div class="project-top">
-        <span class="project-index">010</span>
-        <a href="https://github.com/asadbekabdulboqiyev/ecommerce" target="_blank" class="project-arrow">↗</a>
-      </div>
-      <h3 class="project-name">E-Commerce App</h3>
-      <p class="project-desc">Flutter e-commerce application. Product catalog, shopping cart, va checkout flow — to'liq onlayn do'kon tizimi.</p>
-      <div class="project-tags">
-        <span class="ptag main">Flutter</span>
-        <span class="ptag">E-Commerce</span>
-        <span class="ptag">Dart</span>
-        <span class="ptag">Cart</span>
-      </div>
-    </div>
-    <div class="project-card">
-      <div class="project-top">
-        <span class="project-index">011</span>
-        <a href="https://github.com/asadbekabdulboqiyev/freshlink" target="_blank" class="project-arrow">↗</a>
-      </div>
-      <h3 class="project-name">FreshLink</h3>
-      <p class="project-desc">Connect with fresh produce and local farmers markets. Mahalliy fermerlar bilan bog'lanish, yangi mahsulotlar topish.</p>
-      <div class="project-tags">
-        <span class="ptag main">Flutter</span>
-        <span class="ptag">Marketplace</span>
-        <span class="ptag">Dart</span>
-        <span class="ptag">Local</span>
-      </div>
-    </div>
-    <div class="project-card">
-      <div class="project-top">
-        <span class="project-index">012</span>
-        <a href="https://github.com/asadbekabdulboqiyev/telegram-ai-bot" target="_blank" class="project-arrow">↗</a>
-      </div>
-      <h3 class="project-name">Day0 Bot</h3>
-      <p class="project-desc">AI Telegram bot powered by Groq Llama. Savol-javob, matn generatsiyasi va AI bilan suhbat — Telegram'da.</p>
-      <div class="project-tags">
-        <span class="ptag main">Python</span>
-        <span class="ptag main">AI</span>
-        <span class="ptag">Telegram</span>
-        <span class="ptag">Groq</span>
-      </div>
-    </div>
+  </div>
+
+  <!-- fallback when WebGL/CDN is unavailable -->
+  <div class="proj-fallback reveal">
+    <a href="https://github.com/asadbekabdulboqiyev/nesto-uz" target="_blank"><h3>Nesto UZ</h3><p>Flutter · AI · Marketplace</p></a>
+    <a href="https://github.com/asadbekabdulboqiyev/hisob" target="_blank"><h3>Hisob</h3><p>Flutter · FastAPI · Finance</p></a>
+    <a href="https://github.com/asadbekabdulboqiyev/florist-app" target="_blank"><h3>Bloom & Petal</h3><p>Flutter · Firebase · E-Commerce</p></a>
+    <a href="https://github.com/asadbekabdulboqiyev/zer-language-ide" target="_blank"><h3>Zer Language IDE</h3><p>Flutter · IDE · Dev Tool</p></a>
+    <a href="https://github.com/asadbekabdulboqiyev/tinchlik" target="_blank"><h3>Tinchlik</h3><p>Flutter · Wellness</p></a>
+    <a href="https://github.com/asadbekabdulboqiyev/mini-metro-runner" target="_blank"><h3>Mini Metro Runner</h3><p>Flutter · Flame · Game</p></a>
+    <a href="https://github.com/asadbekabdulboqiyev/weather-app" target="_blank"><h3>Weather App</h3><p>Flutter · API · Weather</p></a>
+    <a href="https://github.com/asadbekabdulboqiyev/nexpay-business" target="_blank"><h3>NexPay Business</h3><p>Flutter · Fintech · Payments</p></a>
+    <a href="https://github.com/asadbekabdulboqiyev/social-hub" target="_blank"><h3>Social Hub</h3><p>Flutter · Social · Real-time</p></a>
+    <a href="https://github.com/asadbekabdulboqiyev/ecommerce" target="_blank"><h3>E-Commerce App</h3><p>Flutter · E-Commerce · Cart</p></a>
+    <a href="https://github.com/asadbekabdulboqiyev/freshlink" target="_blank"><h3>FreshLink</h3><p>Flutter · Marketplace · Local</p></a>
+    <a href="https://github.com/asadbekabdulboqiyev/telegram-ai-bot" target="_blank"><h3>Day0 Bot</h3><p>Python · AI · Telegram</p></a>
   </div>
 </section>
 
@@ -474,6 +400,11 @@ footer{padding:2rem 3rem;border-top:0.5px solid var(--border);display:flex;justi
         <a href="https://t.me/tmeAsadbek" class="btn btn-primary" data-magnetic>Telegram ↗</a>
         <a href="https://github.com/asadbekabdulboqiyev" target="_blank" class="btn btn-ghost" data-magnetic>GitHub ↗</a>
       </div>
+      <div class="socials">
+        <a class="social-chip" href="mailto:asadbek.abdulboqiyev@gmail.com">✉ email</a>
+        <a class="social-chip" href="https://t.me/tmeAsadbek" target="_blank">✈ telegram</a>
+        <a class="social-chip" href="https://github.com/asadbekabdulboqiyev" target="_blank">⌥ github</a>
+      </div>
     </div>
   </div>
 </section>
@@ -485,7 +416,7 @@ footer{padding:2rem 3rem;border-top:0.5px solid var(--border);display:flex;justi
 
 </main>
 
-<!-- 3D watchdog: if the scene fails to boot (CDN down, WebGL blocked), degrade gracefully -->
+<!-- 3D watchdog -->
 <script>
 window.__3dReady = false;
 setTimeout(function(){ if(!window.__3dReady) document.body.classList.add('no-3d'); }, 4000);
@@ -493,74 +424,63 @@ setTimeout(function(){ if(!window.__3dReady) document.body.classList.add('no-3d'
 
 <script type="module">
 /* ============================================================
-   THREE.JS 3D SCENE — a scroll-driven journey past real objects
-   hero (torus knot) · about (platonic solids) · projects (globe
-   with 12 satellites) · contact (constellation)
+   TECHCORP 3D ENGINE — two scenes:
+   A) fixed ambient world  (hero knot · about solids · contact)
+   B) interactive 12-project 3D carousel (real objects)
    ============================================================ */
 async function boot3D(){
   try{
-    const THREE = await import('three'); /* three.module.js — named exports only */
+    const THREE = await import('three');
     const { RoomEnvironment } = await import('three/addons/environments/RoomEnvironment.js');
     const { EffectComposer } = await import('three/addons/postprocessing/EffectComposer.js');
     const { RenderPass } = await import('three/addons/postprocessing/RenderPass.js');
     const { UnrealBloomPass } = await import('three/addons/postprocessing/UnrealBloomPass.js');
     const { OutputPass } = await import('three/addons/postprocessing/OutputPass.js');
 
-    const canvas = document.getElementById('scene3d');
+    const canvasA = document.getElementById('scene3d');
+    const canvasB = document.getElementById('projects3d');
+    const wrap = document.getElementById('projWrap');
+    const labelBox = document.getElementById('plabels');
     const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
     const isMobile = innerWidth < 768;
     const ACCENT = 0x97c459;
+    const fine = matchMedia('(pointer:fine)').matches;
 
-    /* ---------- renderer ---------- */
-    const renderer = new THREE.WebGLRenderer({ canvas, antialias: !isMobile, alpha: false, powerPreference: 'high-performance' });
-    renderer.setPixelRatio(Math.min(devicePixelRatio, isMobile ? 1.6 : 2));
-    renderer.setSize(innerWidth, innerHeight);
-    renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.15;
+    /* ================= SCENE A — ambient background ================= */
+    const rendererA = new THREE.WebGLRenderer({ canvas: canvasA, antialias: !isMobile, alpha: false, powerPreference: 'high-performance' });
+    rendererA.setPixelRatio(Math.min(devicePixelRatio, isMobile ? 1.5 : 2));
+    rendererA.setSize(innerWidth, innerHeight);
+    rendererA.toneMapping = THREE.ACESFilmicToneMapping;
+    rendererA.toneMappingExposure = 1.15;
 
-    /* ---------- scene ---------- */
-    const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x070708);
-    scene.fog = new THREE.FogExp2(0x070708, 0.026);
+    const sceneA = new THREE.Scene();
+    sceneA.background = new THREE.Color(0x070708);
+    sceneA.fog = new THREE.FogExp2(0x070708, 0.026);
 
-    /* IBL studio reflections */
-    const pmrem = new THREE.PMREMGenerator(renderer);
-    scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+    const pmrem = new THREE.PMREMGenerator(rendererA);
+    sceneA.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
 
-    /* ---------- camera ---------- */
-    const camera = new THREE.PerspectiveCamera(44, innerWidth / innerHeight, 0.1, 120);
-    camera.position.set(0, 0.2, 16);
-    camera.lookAt(0, 0, 0);
+    const cameraA = new THREE.PerspectiveCamera(44, innerWidth / innerHeight, 0.1, 120);
+    cameraA.position.set(0, 0.2, 16);
 
-    /* ---------- lights ---------- */
-    scene.add(new THREE.AmbientLight(0xffffff, 0.35));
-    const key = new THREE.DirectionalLight(0xfff2e0, 2.2);
-    key.position.set(5, 7, 4);
-    const fill = new THREE.DirectionalLight(0x9fb8ff, 0.7);
-    fill.position.set(-6, -2, 3);
-    const accentLight = new THREE.PointLight(ACCENT, 120, 45, 1.8);
-    accentLight.position.set(6, -3, 8);
-    const rimLight = new THREE.PointLight(0x4a7dff, 70, 45, 1.8);
-    rimLight.position.set(-8, 4, -6);
-    scene.add(key, fill, accentLight, rimLight);
+    sceneA.add(new THREE.AmbientLight(0xffffff, 0.35));
+    const key = new THREE.DirectionalLight(0xfff2e0, 2.2); key.position.set(5, 7, 4);
+    const fill = new THREE.DirectionalLight(0x9fb8ff, 0.7); fill.position.set(-6, -2, 3);
+    const accL = new THREE.PointLight(ACCENT, 120, 45, 1.8); accL.position.set(6, -3, 8);
+    const rimL = new THREE.PointLight(0x4a7dff, 70, 45, 1.8); rimL.position.set(-8, 4, -6);
+    sceneA.add(key, fill, accL, rimL);
 
-    /* ---------- shared materials ---------- */
-    const crystal = new THREE.MeshPhysicalMaterial({
-      color: 0xf2ede4, metalness: 0.1, roughness: 0.05,
-      clearcoat: 1, clearcoatRoughness: 0.1, transparent: true, opacity: 0.5,
-      envMapIntensity: 1.2, depthWrite: false
-    });
+    const crystal = new THREE.MeshPhysicalMaterial({ color: 0xf2ede4, metalness: 0.1, roughness: 0.05, clearcoat: 1, clearcoatRoughness: 0.1, transparent: true, opacity: 0.5, envMapIntensity: 1.2, depthWrite: false });
     const darkMetal = new THREE.MeshStandardMaterial({ color: 0x2a2a2e, metalness: 0.95, roughness: 0.35, envMapIntensity: 1.2 });
     const greenMetal = new THREE.MeshStandardMaterial({ color: ACCENT, metalness: 0.9, roughness: 0.28, envMapIntensity: 1.3 });
 
-    /* ============ HERO — iridescent torus knot ============ */
+    /* hero torus knot */
     const hero = new THREE.Group();
     const heroMat = new THREE.MeshPhysicalMaterial({
       color: new THREE.Color(0xcfe8b0).lerp(new THREE.Color(ACCENT), 0.35),
-      metalness: 0.85, roughness: 0.16,
-      iridescence: 1.0, iridescenceIOR: 1.35, iridescenceThicknessRange: [120, 520],
-      clearcoat: 1.0, clearcoatRoughness: 0.12, envMapIntensity: 1.4,
-      transparent: isMobile, opacity: isMobile ? 0.5 : 1
+      metalness: 0.85, roughness: 0.16, iridescence: 1.0, iridescenceIOR: 1.35,
+      iridescenceThicknessRange: [120, 520], clearcoat: 1.0, clearcoatRoughness: 0.12,
+      envMapIntensity: 1.4, transparent: isMobile, opacity: isMobile ? 0.5 : 1
     });
     const knot = new THREE.Mesh(new THREE.TorusKnotGeometry(1.15, 0.34, 180, 26), heroMat);
     const shell = new THREE.Mesh(
@@ -569,7 +489,6 @@ async function boot3D(){
     );
     shell.scale.setScalar(1.12);
     hero.add(knot, shell);
-
     const sats = [];
     const satGeo = new THREE.SphereGeometry(0.085, 16, 16);
     for (let i = 0; i < 3; i++) {
@@ -580,83 +499,39 @@ async function boot3D(){
     const P = isMobile ? { x: 0, y: 1.15, z: -3.2, s: 0.62 } : { x: 3.5, y: 0.5, z: 0, s: 1 };
     hero.position.set(P.x, P.y, P.z);
     hero.scale.setScalar(reduce ? P.s : 0.001);
-    scene.add(hero);
+    sceneA.add(hero);
 
-    /* ============ ABOUT — platonic solids cluster ============ */
-    /* narrow screens: pull objects toward center so they stay on-screen */
-    const RX = isMobile ? 0.32 : 1;
-    const RY = isMobile ? 0.8 : 1;
+    /* about cluster */
+    const RX = isMobile ? 0.32 : 1, RY = isMobile ? 0.8 : 1;
     const cluster = [];
     function solid(geo, mat, x, y, z, sx, sy){
       const g = new THREE.Group();
-      const mesh = new THREE.Mesh(geo, mat);
-      g.add(mesh);
+      g.add(new THREE.Mesh(geo, mat));
       g.position.set(x * RX, y * RY, z);
       if (isMobile) g.scale.setScalar(0.7);
-      scene.add(g);
+      sceneA.add(g);
       cluster.push({ g, sx, sy, baseY: y * RY, phase: Math.random() * Math.PI * 2 });
-      return g;
     }
-    solid(new THREE.DodecahedronGeometry(1.0, 0), greenMetal,  -3.6,  1.2, -16, 0.35, 0.42);
+    solid(new THREE.DodecahedronGeometry(1.0, 0), greenMetal, -3.6,  1.2, -16, 0.35, 0.42);
     solid(new THREE.IcosahedronGeometry(0.85, 0), crystal,      3.7, -0.8, -15, 0.5, -0.3);
     solid(new THREE.OctahedronGeometry(0.75, 0), darkMetal,     0.6,  1.9, -14, 0.6, 0.55);
     solid(new THREE.TorusGeometry(0.55, 0.09, 12, 42), greenMetal, -1.8, -1.3, -14.5, 0.9, 0.7);
 
-    /* ============ PROJECTS — geodesic globe + 12 satellites ============ */
-    const globe = new THREE.Group();
-    const globeWire = new THREE.Mesh(
-      new THREE.IcosahedronGeometry(2.2, 1),
-      new THREE.MeshBasicMaterial({ color: ACCENT, wireframe: true, transparent: true, opacity: 0.16, depthWrite: false })
-    );
-    const ringA = new THREE.Mesh(
-      new THREE.TorusGeometry(2.9, 0.028, 12, 96),
-      new THREE.MeshStandardMaterial({ color: 0xf2ede4, metalness: 1, roughness: 0.25, envMapIntensity: 1.3 })
-    );
-    ringA.rotation.x = Math.PI / 2.4;
-    const ringB = new THREE.Mesh(
-      new THREE.TorusGeometry(3.15, 0.014, 8, 96),
-      new THREE.MeshBasicMaterial({ color: ACCENT, transparent: true, opacity: 0.55 })
-    );
-    ringB.rotation.set(-1.15, 0.6, 0);
-    globe.add(globeWire, ringA, ringB);
-
-    const cubeMat = new THREE.MeshStandardMaterial({ color: ACCENT, metalness: 0.7, roughness: 0.35, envMapIntensity: 1.1, emissive: 0x1a2a0a, emissiveIntensity: 0.5 });
-    const cubes = new THREE.InstancedMesh(new THREE.BoxGeometry(0.15, 0.15, 0.15), cubeMat, 12);
-    const m4 = new THREE.Matrix4(), q4 = new THREE.Quaternion(), e4 = new THREE.Euler(), s4 = new THREE.Vector3(1,1,1);
-    for (let i = 0; i < 12; i++) {
-      const a = (i / 12) * Math.PI * 2;
-      e4.set(0, a, 0); q4.setFromEuler(e4);
-      m4.compose(new THREE.Vector3(Math.cos(a) * 3.3, 0, Math.sin(a) * 3.3), q4, s4);
-      cubes.setMatrixAt(i, m4);
-    }
-    cubes.rotation.x = 0.9;
-    cubes.instanceMatrix.needsUpdate = true;
-    globe.add(cubes);
-    globe.position.set(isMobile ? 0 : 0.6, isMobile ? -0.3 : 0.4, -30);
-    if (isMobile) globe.scale.setScalar(0.7);
-    scene.add(globe);
-
-    /* ============ CONTACT — constellation ============ */
+    /* contact constellation */
     const contact = new THREE.Group();
     const tetraMat = new THREE.MeshBasicMaterial({ color: ACCENT, wireframe: true, transparent: true, opacity: 0.55, depthWrite: false });
     const tetra = new THREE.Mesh(new THREE.TetrahedronGeometry(1.35, 0), tetraMat);
-    const tetra2 = new THREE.Mesh(
-      new THREE.TetrahedronGeometry(1.8, 0),
-      new THREE.MeshBasicMaterial({ color: 0xf2ede4, wireframe: true, transparent: true, opacity: 0.16, depthWrite: false })
-    );
+    const tetra2 = new THREE.Mesh(new THREE.TetrahedronGeometry(1.8, 0), new THREE.MeshBasicMaterial({ color: 0xf2ede4, wireframe: true, transparent: true, opacity: 0.16, depthWrite: false }));
     tetra2.rotation.set(0.7, 0.5, 0.2);
     const orb = new THREE.Mesh(new THREE.IcosahedronGeometry(0.5, 0), crystal);
-    const halo = new THREE.Mesh(
-      new THREE.RingGeometry(2.0, 2.12, 64),
-      new THREE.MeshBasicMaterial({ color: ACCENT, transparent: true, opacity: 0.5, side: THREE.DoubleSide, depthWrite: false })
-    );
+    const halo = new THREE.Mesh(new THREE.RingGeometry(2.0, 2.12, 64), new THREE.MeshBasicMaterial({ color: ACCENT, transparent: true, opacity: 0.5, side: THREE.DoubleSide, depthWrite: false }));
     halo.rotation.x = Math.PI / 2.2;
     contact.add(tetra, tetra2, orb, halo);
     contact.position.set(isMobile ? 0 : -3.4, isMobile ? -0.2 : 0.5, -46);
     if (isMobile) contact.scale.setScalar(0.7);
-    scene.add(contact);
+    sceneA.add(contact);
 
-    /* ============ starfield (fixed distant stars — ambience only) ============ */
+    /* stars */
     const starGeo = new THREE.BufferGeometry();
     const starN = isMobile ? 140 : 260;
     const pos = new Float32Array(starN * 3);
@@ -666,82 +541,267 @@ async function boot3D(){
       pos[i*3+2] = -2 - Math.random() * 52;
     }
     starGeo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
-    const stars = new THREE.Points(starGeo, new THREE.PointsMaterial({
-      color: 0x8899aa, size: 0.035, transparent: true, opacity: 0.4,
-      sizeAttenuation: true, depthWrite: false, fog: false
-    }));
-    scene.add(stars);
+    sceneA.add(new THREE.Points(starGeo, new THREE.PointsMaterial({ color: 0x8899aa, size: 0.035, transparent: true, opacity: 0.4, sizeAttenuation: true, depthWrite: false, fog: false })));
 
-    /* ---------- post-processing ---------- */
-    const composer = new EffectComposer(renderer);
-    composer.addPass(new RenderPass(scene, camera));
-    const bloom = new UnrealBloomPass(new THREE.Vector2(innerWidth, innerHeight), isMobile ? 0.25 : 0.55, 0.65, 0.2);
-    composer.addPass(bloom);
-    composer.addPass(new OutputPass());
+    const composerA = new EffectComposer(rendererA);
+    composerA.addPass(new RenderPass(sceneA, cameraA));
+    const bloomA = new UnrealBloomPass(new THREE.Vector2(innerWidth, innerHeight), isMobile ? 0.25 : 0.55, 0.65, 0.2);
+    composerA.addPass(bloomA);
+    composerA.addPass(new OutputPass());
 
-    /* ---------- interaction state ---------- */
-    let mx = 0, my = 0, scrollT = 0, scrollVel = 0, lastSy = 0, camZ = 16;
-    if (!reduce && matchMedia('(pointer:fine)').matches) {
+    /* ================= SCENE B — 12-project 3D carousel ================= */
+    const PROJECTS = [
+      { name:'Nesto UZ',        url:'https://github.com/asadbekabdulboqiyev/nesto-uz',            desc:"O'zbekistondagi ish va uy-joy bozori ilovasi. AI bilan kuchaytirilgan — real estate va job marketplace bir platformada.",            tags:['Flutter','AI','Dart','Marketplace'], geo:'cube' },
+      { name:'Hisob',           url:'https://github.com/asadbekabdulboqiyev/hisob',               desc:"Shaxsiy moliya va byudjet nazorati ilovasi. Flutter + FastAPI backend bilan — xarajatlarni kuzatib boring, o'zgartiring.",                 tags:['Flutter','FastAPI','Dart','Finance'],  geo:'octa' },
+      { name:'Bloom & Petal',   url:'https://github.com/asadbekabdulboqiyev/florist-app',         desc:"Premium florist e-commerce app. Firebase backend, beautiful UI, real-time order tracking va delivery system bilan to'liq shop.",    tags:['Flutter','Firebase','E-Commerce','Dart'],geo:'ring' },
+      { name:'Zer Language IDE',url:'https://github.com/asadbekabdulboqiyev/zer-language-ide',    desc:"Zer dasturlash tili uchun Flutter-based IDE. Syntax highlighting, code editing va real-time execution — hammasi mobile'da.",       tags:['Flutter','IDE','Dart','Dev Tool'],      geo:'tetra' },
+      { name:'Tinchlik',        url:'https://github.com/asadbekabdulboqiyev/tinchlik',            desc:"Meditation and mindfulness app. Ongni tinchlantiruvchi ilova — guided meditations, breathing exercises, va daily tracker.",      tags:['Flutter','Wellness','Dart','UI/UX'],    geo:'sphere' },
+      { name:'Mini Metro Runner',url:'https://github.com/asadbekabdulboqiyev/mini-metro-runner',  desc:"Endless runner game built with Flutter va Flame engine. Tezlik, to'siqlar, va high score — o'ynash oson, yutish qiyin.",        tags:['Flutter','Flame','Game','Dart'],        geo:'dode' },
+      { name:'Weather App',     url:'https://github.com/asadbekabdulboqiyev/weather-app',         desc:"Beautiful Flutter weather application. Real-time weather data, forecasts, va chiroyli animations bilan ob-havo ilovasi.",       tags:['Flutter','API','Dart','Weather'],       geo:'ico' },
+      { name:'NexPay Business', url:'https://github.com/asadbekabdulboqiyev/nexpay-business',     desc:"Business payment va invoicing app. To'lov tizimi, invoice yaratish, va moliyaviy hisobotlar — hammasi bir joyda.",              tags:['Flutter','Fintech','Dart','Payments'],  geo:'coin' },
+      { name:'Social Hub',      url:'https://github.com/asadbekabdulboqiyev/social-hub',          desc:"Flutter social networking application. Post sharing, real-time messaging, va community features — ijtimoiy tarmoq ilovasi.",      tags:['Flutter','Social','Dart','Real-time'],  geo:'knot' },
+      { name:'E-Commerce App',  url:'https://github.com/asadbekabdulboqiyev/ecommerce',           desc:"Flutter e-commerce application. Product catalog, shopping cart, va checkout flow — to'liq onlayn do'kon tizimi.",                 tags:['Flutter','E-Commerce','Dart','Cart'],   geo:'store' },
+      { name:'FreshLink',       url:'https://github.com/asadbekabdulboqiyev/freshlink',           desc:"Connect with fresh produce and local farmers markets. Mahalliy fermerlar bilan bog'lanish, yangi mahsulotlar topish.",             tags:['Flutter','Marketplace','Dart','Local'],  geo:'capsule' },
+      { name:'Day0 Bot',        url:'https://github.com/asadbekabdulboqiyev/telegram-ai-bot',     desc:"AI Telegram bot powered by Groq Llama. Savol-javob, matn generatsiyasi va AI bilan suhbat — Telegram'da.",                        tags:['Python','AI','Telegram','Groq'],        geo:'cone' }
+    ];
+    const MAT_COLORS = [0x97c459, 0xb9d97a, 0x7daf4e, 0xd3f0b0, 0x639922, 0xa5cd6b, 0x8fbd5c, 0xc4e68a, 0x6f9e3f, 0xaae07a, 0x82b254, 0xbdd88f];
+
+    function buildShape(kind){
+      switch (kind) {
+        case 'cube':    return new THREE.BoxGeometry(1.05, 1.05, 1.05);
+        case 'store':   return new THREE.BoxGeometry(1.3, 0.8, 0.7);
+        case 'octa':    return new THREE.OctahedronGeometry(0.95, 0);
+        case 'ring':    return new THREE.TorusGeometry(0.62, 0.24, 20, 48);
+        case 'tetra':   return new THREE.TetrahedronGeometry(1.05, 0);
+        case 'sphere':  return new THREE.SphereGeometry(0.85, 32, 32);
+        case 'dode':    return new THREE.DodecahedronGeometry(0.9, 0);
+        case 'ico':     return new THREE.IcosahedronGeometry(0.95, 0);
+        case 'coin':    return new THREE.CylinderGeometry(0.62, 0.62, 0.42, 40);
+        case 'knot':    return new THREE.TorusKnotGeometry(0.62, 0.2, 90, 14);
+        case 'capsule': return new THREE.CapsuleGeometry(0.52, 0.7, 6, 16);
+        case 'cone':    return new THREE.ConeGeometry(0.72, 1.25, 5);
+      }
+    }
+
+    const rendererB = new THREE.WebGLRenderer({ canvas: canvasB, antialias: true, alpha: true });
+    rendererB.setPixelRatio(Math.min(devicePixelRatio, isMobile ? 1.6 : 2));
+    const sceneB = new THREE.Scene();
+    sceneB.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+    const cameraB = new THREE.PerspectiveCamera(45, 1, 0.1, 80);
+    cameraB.position.set(0, 0.6, 9.5);
+    sceneB.add(new THREE.AmbientLight(0xffffff, 0.55));
+    const keyB = new THREE.DirectionalLight(0xfff2e0, 2.0); keyB.position.set(4, 6, 5);
+    const accB = new THREE.PointLight(ACCENT, 80, 30, 1.8); accB.position.set(0, 2, 4);
+    const rimB = new THREE.PointLight(0x4a7dff, 50, 30, 1.8); rimB.position.set(-6, -2, -3);
+    sceneB.add(keyB, accB, rimB);
+
+    const RR = isMobile ? 2.8 : 4.6;
+    const carousel = new THREE.Group();
+    const pItems = [];
+    const selRing = new THREE.Mesh(
+      new THREE.TorusGeometry(1.35, 0.02, 10, 60),
+      new THREE.MeshBasicMaterial({ color: ACCENT, transparent: true, opacity: 0.9 })
+    );
+    selRing.visible = false;
+    sceneB.add(selRing);
+
+    PROJECTS.forEach((p, i) => {
+      const mat = new THREE.MeshStandardMaterial({
+        color: MAT_COLORS[i % MAT_COLORS.length], metalness: 0.75, roughness: 0.28,
+        envMapIntensity: 1.2, emissive: 0x000000
+      });
+      const mesh = new THREE.Mesh(buildShape(p.geo), mat);
+      const wf = new THREE.Mesh(buildShape(p.geo), new THREE.MeshBasicMaterial({ color: 0xffffff, wireframe: true, transparent: true, opacity: 0.1, depthWrite: false }));
+      wf.scale.setScalar(1.1);
+      mesh.add(wf);
+      const a = (i / PROJECTS.length) * Math.PI * 2;
+      mesh.position.set(Math.sin(a) * RR, 0, Math.cos(a) * RR);
+      mesh.rotation.y = -a;
+      mesh.userData.index = i;
+      carousel.add(mesh);
+      pItems.push(mesh);
+    });
+    sceneB.add(carousel);
+
+    /* DOM labels over the 3D objects */
+    const labels = [];
+    PROJECTS.forEach((p, i) => {
+      const el = document.createElement('div');
+      el.className = 'plabel';
+      el.innerHTML = '<i>◆</i>' + p.name;
+      el.addEventListener('click', () => { select(i, true); });
+      el.addEventListener('mouseenter', () => { if (sel !== i) setHover(i, true); });
+      el.addEventListener('mouseleave', () => { if (sel !== i) setHover(i, false); });
+      labelBox.appendChild(el);
+      labels.push(el);
+    });
+
+    /* ---------- interaction state (carousel) ---------- */
+    const raycaster = new THREE.Raycaster();
+    const ndc = new THREE.Vector2();
+    let dragging = false, moved = false, vel = 0, lastX = 0, lastT = 0;
+    let downX = 0, downY = 0, baseRot = 0, lastInteract = 0;
+    let sel = 0, manual = false, hoverI = -1;
+    let wrapVisible = true;
+    const tmpV = new THREE.Vector3();
+    const tmpV2 = new THREE.Vector3();
+
+    function select(i, user){
+      sel = i;
+      manual = manual || !!user;
+      if (user) lastInteract = performance.now();
+      updateDetail();
+      updateLabelStates();
+    }
+    function setHover(i, on){
+      hoverI = on ? i : -1;
+      const m = pItems[i];
+      m.material.emissive.setHex(on ? ACCENT : 0x000000);
+      m.material.emissiveIntensity = on ? 0.55 : 0;
+    }
+    function updateLabelStates(){
+      labels.forEach((el, i) => el.classList.toggle('active', i === sel));
+    }
+    function updateDetail(){
+      const p = PROJECTS[sel];
+      document.getElementById('dIndex').textContent = String(sel + 1).padStart(3, '0');
+      document.getElementById('dName').textContent = p.name;
+      document.getElementById('dDesc').textContent = p.desc;
+      document.getElementById('dTags').innerHTML = p.tags.map(t => '<span class="ptag main">' + t + '</span>').join('');
+      document.getElementById('dLink').href = p.url;
+    }
+    function spinOnce(){ vel = 3.5; lastInteract = performance.now() - 500; } /* kick a spin */
+
+    /* canvas interaction */
+    function px(e){
+      if (e.touches && e.touches.length) return e.touches[0];
+      if (e.changedTouches && e.changedTouches.length) return e.changedTouches[0];
+      return e;
+    }
+    function onDown(e){ dragging = true; moved = false; const t = px(e); downX = t.clientX; downY = t.clientY; lastX = t.clientX; lastT = performance.now(); baseRot = carousel.rotation.y; vel = 0; }
+    function onMove(e){
+      if (!dragging) return;
+      const t = px(e);
+      const dx = t.clientX - downX;
+      carousel.rotation.y = baseRot + dx * 0.006;
+      const now = performance.now();
+      const dtms = Math.max(1, now - lastT);
+      vel = ((t.clientX - lastX) / dtms) * 14;
+      lastX = t.clientX; lastT = now;
+      if (Math.abs(t.clientX - downX) + Math.abs(t.clientY - downY) > 6) moved = true;
+    }
+    function onUp(e){
+      if (!dragging) return;
+      dragging = false;
+      if (!moved) { pick(e); } else { lastInteract = performance.now(); }
+    }
+    function pick(e){
+      const t = px(e);
+      const r = canvasB.getBoundingClientRect();
+      ndc.x = ((t.clientX - r.left) / r.width) * 2 - 1;
+      ndc.y = -((t.clientY - r.top) / r.height) * 2 + 1;
+      raycaster.setFromCamera(ndc, cameraB);
+      const hits = raycaster.intersectObjects(pItems, false);
+      if (hits.length) select(hits[0].object.userData.index, true);
+    }
+    canvasB.addEventListener('pointerdown', onDown);
+    addEventListener('pointermove', onMove);
+    addEventListener('pointerup', onUp);
+    canvasB.addEventListener('touchstart', e => { onDown(e); }, { passive: true });
+    canvasB.addEventListener('touchmove', e => { onMove(e); e.preventDefault(); }, { passive: false });
+    canvasB.addEventListener('touchend', e => { onUp(e); }, { passive: true });
+
+    /* prev / next / spin buttons */
+    document.getElementById('dPrev').addEventListener('click', () => select((sel + PROJECTS.length - 1) % PROJECTS.length, true));
+    document.getElementById('dNext').addEventListener('click', () => select((sel + 1) % PROJECTS.length, true));
+    document.getElementById('dSpin').addEventListener('click', () => { spinOnce(); });
+
+    /* pause carousel when off-screen */
+    new IntersectionObserver(es => {
+      es.forEach(en => { wrapVisible = en.isIntersecting; });
+    }, { threshold: 0.05 }).observe(wrap);
+
+    /* ---------- shared loop ---------- */
+    const clock = new THREE.Clock();
+    let running = true;
+    document.addEventListener('visibilitychange', () => { running = !document.hidden; if (running) clock.getDelta(); });
+
+    let mx = 0, my = 0, scrollT = 0, scrollVel = 0, lastSy = 0, camAZ = 16, autoSelT = 0;
+
+    if (!reduce && fine) {
       addEventListener('pointermove', e => {
         mx = (e.clientX / innerWidth) * 2 - 1;
         my = (e.clientY / innerHeight) * 2 - 1;
       }, { passive: true });
     }
 
-    /* ---------- resize ---------- */
-    function onResize(){
-      const w = innerWidth, h = innerHeight;
-      camera.aspect = w / h; camera.updateProjectionMatrix();
-      renderer.setSize(w, h);
-      composer.setSize(w, h);
-      bloom.setSize(w, h);
-    }
-    addEventListener('resize', onResize);
-
-    /* ---------- animation loop ---------- */
-    const clock = new THREE.Clock();
-    let running = true, raf = 0;
-    document.addEventListener('visibilitychange', () => {
-      running = !document.hidden;
-      if (running) { clock.getDelta(); raf = requestAnimationFrame(animate); }
-    });
-
     const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
     const lerp = (a, b, t) => a + (b - a) * t;
     const smooth = t => t * t * (3 - 2 * t);
 
+    /* label position math */
+    function placeLabels(){
+      const rect = wrap.getBoundingClientRect();
+      if (rect.width < 10) return;
+      for (let i = 0; i < pItems.length; i++) {
+        const el = labels[i];
+        pItems[i].getWorldPosition(tmpV);
+        tmpV.y += 1.7;
+        const nearSide = tmpV.z > 0;
+        tmpV.project(cameraB);
+        if (tmpV.z > 1 || tmpV.x < -1 || tmpV.x > 1 || tmpV.y < -1 || tmpV.y > 1) {
+          el.style.opacity = '0';
+          continue;
+        }
+        const x = (tmpV.x * 0.5 + 0.5) * rect.width;
+        const y = (-tmpV.y * 0.5 + 0.5) * rect.height;
+        el.style.transform = 'translate(' + x + 'px,' + y + 'px) translate(-50%,-50%)';
+        el.style.opacity = nearSide ? '1' : '0.3';
+        el.style.zIndex = nearSide ? '2' : '1';
+      }
+    }
+
+    function resize(){
+      const w = innerWidth, h = innerHeight;
+      cameraA.aspect = w / h; cameraA.updateProjectionMatrix();
+      rendererA.setSize(w, h);
+      composerA.setSize(w, h);
+      bloomA.setSize(w, h);
+      const rw = wrap.clientWidth || 600, rh = wrap.clientHeight || 480;
+      cameraB.aspect = rw / rh; cameraB.updateProjectionMatrix();
+      rendererB.setSize(rw, rh, false);
+    }
+    addEventListener('resize', resize);
+    resize();
+    updateDetail();
+    updateLabelStates();
+
     function animate(){
-      raf = requestAnimationFrame(animate);
+      requestAnimationFrame(animate);
+      if (!running) return;
       const dt = Math.min(clock.getDelta(), 0.05);
       const t = clock.elapsedTime;
 
-      /* scroll state */
+      /* --- scene A camera (scroll journey) --- */
       const maxScroll = Math.max(1, document.documentElement.scrollHeight - innerHeight);
       const sy = window.scrollY;
       scrollVel = lerp(scrollVel, Math.abs(sy - lastSy) * 0.08, 0.06);
       lastSy = sy;
-      const targetScrollT = clamp(sy / maxScroll, 0, 1);
-      scrollT = reduce ? 0 : lerp(scrollT, targetScrollT, 0.07);
-
-      /* camera: fly along Z, parallax with pointer */
+      scrollT = reduce ? 0 : lerp(scrollT, clamp(sy / maxScroll, 0, 1), 0.07);
       const targetZ = reduce ? 9 : 9 - 55 * smooth(scrollT);
-      camZ = lerp(camZ, targetZ, reduce ? 1 : 0.05);
-      const kick = clamp(scrollVel, 0, 4) * 6;
-      camera.fov = lerp(camera.fov, 44 + kick, 0.06);
-      camera.updateProjectionMatrix();
-      camera.position.x = lerp(camera.position.x, mx * 1.5, reduce ? 0 : 0.04);
-      camera.position.y = lerp(camera.position.y, 0.2 + my * 0.9, reduce ? 0 : 0.04);
-      camera.position.z = camZ;
-      camera.lookAt(mx * 0.7, my * 0.4, camZ - 8);
+      camAZ = lerp(camAZ, targetZ, reduce ? 1 : 0.05);
+      cameraA.fov = lerp(cameraA.fov, 44 + clamp(scrollVel, 0, 4) * 6, 0.06);
+      cameraA.updateProjectionMatrix();
+      cameraA.position.x = lerp(cameraA.position.x, mx * 1.5, reduce ? 0 : 0.04);
+      cameraA.position.y = lerp(cameraA.position.y, 0.2 + my * 0.9, reduce ? 0 : 0.04);
+      cameraA.position.z = camAZ;
+      cameraA.lookAt(mx * 0.7, my * 0.4, camAZ - 8);
 
-      /* intro: hero scales in */
-      const intro = clamp((16 - camZ) / 7, 0, 1); /* 1 once camZ <= 9 */
-      const targetScale = P.s * (0.2 + 0.8 * smooth(intro));
-      hero.scale.x = lerp(hero.scale.x, targetScale, 0.08);
-      hero.scale.y = hero.scale.x;
-      hero.scale.z = hero.scale.x;
+      const intro = clamp((16 - camAZ) / 7, 0, 1);
+      const ts = P.s * (0.2 + 0.8 * smooth(intro));
+      hero.scale.x = lerp(hero.scale.x, ts, 0.08);
+      hero.scale.y = hero.scale.x; hero.scale.z = hero.scale.x;
 
-      /* hero motion */
       const spin = 1 + clamp(scrollVel, 0, 3) * 0.9;
       knot.rotation.y += 0.0032 * dt * 60 * spin;
       knot.rotation.x += 0.0011 * dt * 60 * spin;
@@ -751,35 +811,56 @@ async function boot3D(){
         const a = t * s.speed + s.phase;
         s.mesh.position.set(Math.cos(a) * s.radius, Math.sin(a) * s.radius * 0.62, Math.sin(a * 0.7) * 0.5);
       }
-
-      /* about cluster */
       for (const c of cluster) {
         c.g.rotation.x += c.sx * 0.004 * dt * 60;
         c.g.rotation.y += c.sy * 0.004 * dt * 60;
         c.g.position.y = c.baseY + Math.sin(t * 0.7 + c.phase) * 0.18;
       }
-
-      /* globe + 12 satellites */
-      globe.rotation.y += 0.0022 * dt * 60 * spin;
-      globe.rotation.z += 0.0006 * dt * 60;
-      cubes.rotation.y -= 0.004 * dt * 60;
-
-      /* contact constellation */
       contact.rotation.y += 0.0035 * dt * 60;
       contact.rotation.x = Math.sin(t * 0.4) * 0.25;
-      const pulse = 1 + Math.sin(t * 1.7) * 0.06;
-      contact.scale.setScalar((isMobile ? 0.7 : 1) * pulse);
+      contact.scale.setScalar((isMobile ? 0.7 : 1) * (1 + Math.sin(t * 1.7) * 0.06));
       const oa = t * 1.1;
       orb.position.set(Math.cos(oa) * 2.1, Math.sin(oa * 1.4) * 1.1, Math.sin(oa) * 2.1);
 
-      composer.render();
+      composerA.render();
+
+      /* --- scene B carousel --- */
+      if (wrapVisible && !reduce) {
+        const now = performance.now();
+        if (!dragging) {
+          if (now - lastInteract > 250) { carousel.rotation.y += vel * dt; vel *= 0.93; }
+          if (now - lastInteract > 4500 && !manual) carousel.rotation.y += 0.0032 * dt * 60;
+        }
+        /* auto-cycle selection until first manual pick */
+        if (!manual && wrapVisible) {
+          autoSelT += dt;
+          if (autoSelT > 3.2) { autoSelT = 0; select((sel + 1) % PROJECTS.length, false); }
+        }
+        /* selected ring highlight */
+        const selMesh = pItems[sel];
+        selRing.visible = true;
+        selMesh.getWorldPosition(tmpV);
+        selRing.position.copy(tmpV);
+        selRing.lookAt(cameraB.position);
+        selRing.scale.setScalar(1 + Math.sin(t * 3) * 0.06);
+        /* pulse selected / idle others */
+        for (let i = 0; i < pItems.length; i++) {
+          const m = pItems[i];
+          const base = isMobile ? 0.85 : 1;
+          const sc = (i === sel ? base * (1.14 + Math.sin(t * 3) * 0.05) : (i === hoverI ? base * 1.1 : base));
+          m.scale.setScalar(sc);
+        }
+        rendererB.render(sceneB, cameraB);
+      }
+      placeLabels();
     }
 
     if (reduce) {
-      /* static frame — honor reduced motion */
       hero.scale.setScalar(P.s);
-      camera.position.set(0, 0.2, 9); camera.lookAt(0, 0, 1);
-      composer.render();
+      cameraA.position.set(0, 0.2, 9); cameraA.lookAt(0, 0, 1);
+      composerA.render();
+      if (wrapVisible) rendererB.render(sceneB, cameraB);
+      placeLabels();
     } else {
       animate();
     }
@@ -799,13 +880,14 @@ boot3D();
 
 <script>
 /* ============================================================
-   DOM MOTION — cursor, tilt, magnetic, parallax, reveal
+   DOM MOTION — cursor, tilt, magnetic, parallax, reveal,
+   marquee, scrollspy, count-up
    ============================================================ */
 (function(){
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const fine = matchMedia('(pointer:fine)').matches;
 
-  /* --- custom cursor --- */
+  /* custom cursor */
   if (fine && !reduce) {
     const cur = document.getElementById('cur'), ring = document.getElementById('ring');
     let mx = 0, my = 0, rx = 0, ry = 0;
@@ -821,36 +903,32 @@ boot3D();
     });
   }
 
-  /* --- scroll progress --- */
+  /* scroll progress */
   const prog = document.getElementById('progress');
-  function tick(){
+  (function tick(){
     const max = document.documentElement.scrollHeight - innerHeight;
     prog.style.width = (max > 0 ? (scrollY / max) * 100 : 0) + '%';
-    requestAnimationFrame(tick);
-  }
-  if (!reduce) requestAnimationFrame(tick);
+    if (!reduce) requestAnimationFrame(tick);
+  })();
 
-  /* --- reveal on scroll (IntersectionObserver) --- */
+  /* reveal */
   const obs = new IntersectionObserver(entries => {
     entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
   }, { threshold: 0.1 });
   document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 
-  /* --- 3D tilt on project cards --- */
-  if (fine && !reduce) {
-    document.querySelectorAll('.project-card').forEach(card => {
-      card.addEventListener('mousemove', e => {
-        const r = card.getBoundingClientRect();
-        const x = (e.clientX - r.left) / r.width - 0.5;
-        const y = (e.clientY - r.top) / r.height - 0.5;
-        card.style.setProperty('--gx', (x + 0.5) * 100 + '%');
-        card.style.setProperty('--gy', (y + 0.5) * 100 + '%');
-        card.style.transform = 'rotateY(' + (x * 5) + 'deg) rotateX(' + (-y * 5) + 'deg) translateY(-3px)';
-      });
-      card.addEventListener('mouseleave', () => { card.style.transform = ''; });
+  /* scrollspy */
+  const secObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        document.querySelectorAll('[data-nav]').forEach(a => a.classList.toggle('active', a.dataset.nav === e.target.id));
+      }
     });
+  }, { rootMargin: '-45% 0px -50% 0px' });
+  ['about', 'projects', 'contact'].forEach(id => { const el = document.getElementById(id); if (el) secObs.observe(el); });
 
-    /* --- magnetic buttons --- */
+  /* magnetic buttons + card glow */
+  if (fine && !reduce) {
     document.querySelectorAll('[data-magnetic]').forEach(btn => {
       btn.addEventListener('mousemove', e => {
         const r = btn.getBoundingClientRect();
@@ -862,18 +940,44 @@ boot3D();
     });
   }
 
-  /* --- scroll parallax on [data-speed] wrappers --- */
+  /* count-up stats */
   if (!reduce) {
-    const els = Array.from(document.querySelectorAll('.parallax')).map(el => ({
-      el,
-      speed: parseFloat(el.dataset.speed || 0)
-    }));
+    const cObs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        cObs.unobserve(e.target);
+        const el = e.target, target = parseFloat(el.dataset.target);
+        const t0 = performance.now();
+        (function step(now){
+          const p = Math.min(1, (now - t0) / 1300);
+          const eased = 1 - Math.pow(1 - p, 3);
+          el.textContent = Math.round(target * eased);
+          if (p < 1) requestAnimationFrame(step);
+        })(t0);
+      });
+    }, { threshold: 0.5 });
+    document.querySelectorAll('.count').forEach(el => cObs.observe(el));
+  }
+
+  /* skill bars fill on reveal */
+  if (!reduce) {
+    const sObs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        sObs.unobserve(e.target);
+        e.target.querySelectorAll('.skill-bar i').forEach(b => { b.style.width = b.dataset.w || b.style.width; });
+      });
+    }, { threshold: 0.3 });
+    document.querySelectorAll('.skills-list').forEach(el => sObs.observe(el));
+  }
+
+  /* hero parallax */
+  if (!reduce) {
+    const els = Array.from(document.querySelectorAll('.parallax')).map(el => ({ el, speed: parseFloat(el.dataset.speed || 0) }));
     els.forEach(({ el }) => { el.style.willChange = 'transform'; });
     (function parallax(){
       const sy = window.scrollY;
-      for (const { el, speed } of els) {
-        el.style.transform = 'translateY(' + (sy * speed) + 'px)';
-      }
+      for (const { el, speed } of els) el.style.transform = 'translateY(' + (sy * speed) + 'px)';
       requestAnimationFrame(parallax);
     })();
   }
