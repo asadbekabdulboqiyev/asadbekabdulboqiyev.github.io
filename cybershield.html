@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stress-Strike + VeriGate — Hujum & Qalqon To'liq Yechimi</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>">
+<style>
+/* ══════════════════════════════════════════════════════════════
+   RESET + CORE
+   ══════════════════════════════════════════════════════════════ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0a0e17;--bg2:#0f1524;--bg3:#151c2f;
+  --surface:#1a2340;--surface2:#222d4a;
+  --accent:#00f5d4;--accent2:#7b61ff;--accent3:#ff3c5f;
+  --red:#ff4d4d;--green:#00f5d4;--blue:#6ec6ff;
+  --text:#e8eaf6;--text2:#8892b0;--text3:#5a6280;
+  --font:'Segoe UI',system-ui,-apple-system,sans-serif;
+  --mono:'SF Mono','Fira Code','Cascadia Code',monospace;
+  --radius:12px;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
+a{color:var(--accent);text-decoration:none;transition:opacity .2s}
+a:hover{opacity:.85}
+img{max-width:100%}
+
+/* ══════════════════════════════════════════════════════════════
+   GRID + LAYOUT
+   ══════════════════════════════════════════════════════════════ */
+.container{max-width:1180px;margin:0 auto;padding:0 24px}
+.grid{display:grid;gap:32px}
+.grid-2{grid-template-columns:repeat(2,1fr)}
+.grid-3{grid-template-columns:repeat(3,1fr)}
+@media(max-width:900px){.grid-2,.grid-3{grid-template-columns:1fr}}
+
+/* ══════════════════════════════════════════════════════════════
+   NAVIGATION
+   ══════════════════════════════════════════════════════════════ */
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(10,14,23,.92);backdrop-filter:blur(16px);border-bottom:1px solid rgba(0,245,212,.08)}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;height:64px;max-width:1180px;margin:0 auto;padding:0 24px}
+.nav-logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:18px}
+.nav-logo .icon{font-size:22px}
+.nav-links{display:flex;gap:28px}
+.nav-links a{color:var(--text2);font-size:14px;font-weight:500;transition:color .2s}
+.nav-links a:hover{color:var(--accent)}
+
+/* ══════════════════════════════════════════════════════════════
+   HERO
+   ══════════════════════════════════════════════════════════════ */
+.hero{min-height:100vh;display:flex;align-items:center;position:relative;overflow:hidden;padding:100px 0 80px}
+.hero::before{content:'';position:absolute;top:-50%;left:-20%;width:140%;height:200%;background:radial-gradient(ellipse at 20% 50%, rgba(0,245,212,.06) 0%, transparent 50%),
+radial-gradient(ellipse at 80% 50%, rgba(123,97,255,.06) 0%, transparent 50%);pointer-events:none}
+.hero-grid{position:relative;z-index:1}
+.hero-left{max-width:640px}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(0,245,212,.08);border:1px solid rgba(0,245,212,.2);color:var(--accent);font-size:12px;font-weight:600;padding:6px 14px;border-radius:99px;margin-bottom:24px;letter-spacing:.5px;text-transform:uppercase}
+.hero h1{font-size:clamp(2.2rem,5vw,3.4rem);font-weight:800;line-height:1.15;margin-bottom:20px;background:linear-gradient(135deg,var(--text) 0%,var(--accent) 50%,var(--accent2) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero p{font-size:18px;color:var(--text2);line-height:1.7;max-width:520px;margin-bottom:36px}
+.hero-buttons{display:flex;gap:16px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:14px 28px;border-radius:10px;font-weight:600;font-size:15px;transition:all .25s;cursor:pointer;border:none}
+.btn-primary{background:linear-gradient(135deg,var(--accent),#00c9a7);color:#0a0e17;box-shadow:0 4px 24px rgba(0,245,212,.25)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,245,212,.35)}
+.btn-secondary{background:var(--surface);color:var(--text);border:1px solid rgba(255,255,255,.08)}
+.btn-secondary:hover{border-color:var(--accent);transform:translateY(-2px)}
+.hero-visual{position:relative;display:flex;justify-content:center;align-items:center;min-height:360px}
+.hero-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:40px}
+.stat-card{background:var(--surface);border:1px solid rgba(255,255,255,.06);border-radius:var(--radius);padding:20px 24px}
+.stat-card .value{font-size:28px;font-weight:800;font-family:var(--mono)}
+.stat-card .label{font-size:13px;color:var(--text2);margin-top:4px}
+.stat-card.attack .value{color:var(--accent3)}
+.stat-card.defend .value{color:var(--accent)}
+
+/* ══════════════════════════════════════════════════════════════
+   VS SECTION
+   ══════════════════════════════════════════════════════════════ */
+.vs-section{padding:100px 0;position:relative}
+.vs-section::before{content:'';position:absolute;top:0;left:50%;width:1px;height:100%;background:linear-gradient(to bottom,transparent,rgba(255,255,255,.06),transparent)}
+.section-label{text-align:center;font-size:12px;text-transform:uppercase;letter-spacing:2px;color:var(--accent);font-weight:700;margin-bottom:12px}
+.section-title{text-align:center;font-size:clamp(1.8rem,3.5vw,2.6rem);font-weight:800;margin-bottom:16px}
+.section-subtitle{text-align:center;color:var(--text2);font-size:16px;max-width:600px;margin:0 auto 48px}
+.vs-panel{border-radius:16px;padding:40px 36px;position:relative;overflow:hidden}
+.vs-panel::before{content:'';position:absolute;inset:0;border-radius:16px;padding:1px;background:linear-gradient(135deg,transparent,rgba(255,255,255,.08),transparent);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
+.panel-attack{background:linear-gradient(135deg,rgba(255,60,95,.06),rgba(255,60,95,.02))}
+.panel-defend{background:linear-gradient(135deg,rgba(0,245,212,.06),rgba(0,245,212,.02))}
+.panel-header{display:flex;align-items:center;gap:12px;margin-bottom:24px}
+.panel-icon{width:48px;height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px}
+.panel-icon.attack{background:rgba(255,60,95,.12);color:var(--accent3)}
+.panel-icon.defend{background:rgba(0,245,212,.12);color:var(--accent)}
+.panel-name{font-size:22px;font-weight:700}
+.panel-tagline{font-size:13px;color:var(--text2)}
+.feature-list{list-style:none;display:flex;flex-direction:column;gap:12px;margin-top:20px}
+.feature-list li{display:flex;align-items:flex-start;gap:10px;font-size:14px;color:var(--text2);line-height:1.6}
+.feature-list li .dot{width:6px;height:6px;border-radius:50%;margin-top:7px;flex-shrink:0}
+.feature-list li .dot.red{background:var(--accent3)}
+.feature-list li .dot.green{background:var(--accent)}
+.metric-row{display:flex;gap:20px;margin-top:24px}
+.metric{flex:1;background:rgba(0,0,0,.2);border-radius:10px;padding:16px 18px}
+.metric .m-value{font-size:22px;font-weight:800;font-family:var(--mono)}
+.metric .m-label{font-size:12px;color:var(--text3);margin-top:2px}
+.metric.red .m-value{color:var(--accent3)}
+.metric.green .m-value{color:var(--accent)}
+
+/* ══════════════════════════════════════════════════════════════
+   LIVE DEMO
+   ══════════════════════════════════════════════════════════════ */
+.demo-section{padding:100px 0;background:var(--bg2)}
+.demo-terminal{background:#0c0c14;border-radius:14px;border:1px solid rgba(255,255,255,.06);overflow:hidden;max-width:880px;margin:0 auto}
+.terminal-bar{display:flex;align-items:center;gap:8px;padding:12px 16px;background:#111119;border-bottom:1px solid rgba(255,255,255,.05)}
+.terminal-dot{width:12px;height:12px;border-radius:50%}
+.terminal-dot.r{background:#ff5f57}
+.terminal-dot.y{background:#febc2e}
+.terminal-dot.g{background:#28c840}
+.terminal-title{margin-left:12px;font-size:12px;color:var(--text3);font-family:var(--mono)}
+.terminal-body{padding:24px;font-family:var(--mono);font-size:13px;line-height:1.9;max-height:500px;overflow-y:auto}
+.t{color:var(--text3)}
+.t-white{color:var(--text)}
+.t-red{color:#ff4d4d}
+.t-green{color:#00f5d4}
+.t-blue{color:#6ec6ff}
+.t-yellow{color:#febc2e}
+.t-dim{color:#3a3f55}
+.t-bold{color:#fff;font-weight:700}
+.cursor-blink{display:inline-block;width:8px;height:16px;background:var(--accent);animation:blink 1s step-end infinite;vertical-align:text-bottom}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+
+/* ══════════════════════════════════════════════════════════════
+   SPECS TABLE
+   ══════════════════════════════════════════════════════════════ */
+.specs-section{padding:100px 0}
+.specs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+@media(max-width:768px){.specs-grid{grid-template-columns:1fr}}
+.spec-card{background:var(--surface);border:1px solid rgba(255,255,255,.04);border-radius:14px;padding:28px 24px;transition:border-color .3s,transform .3s}
+.spec-card:hover{border-color:rgba(0,245,212,.25);transform:translateY(-4px)}
+.spec-card .s-icon{font-size:28px;margin-bottom:14px}
+.spec-card h3{font-size:16px;font-weight:700;margin-bottom:8px}
+.spec-card p{font-size:13px;color:var(--text2);line-height:1.7}
+.spec-card .s-tag{display:inline-block;background:rgba(0,245,212,.08);color:var(--accent);font-size:11px;font-weight:600;padding:3px 10px;border-radius:99px;margin-top:12px}
+
+/* ══════════════════════════════════════════════════════════════
+   COMPARISON ANIMATION
+   ══════════════════════════════════════════════════════════════ */
+.comparison{padding:100px 0;background:var(--bg2)}
+.vs-banner{display:flex;align-items:center;justify-content:center;gap:24px;margin-bottom:48px}
+.vs-badge{width:60px;height:60px;background:var(--surface);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:900;color:var(--accent2);border:2px solid rgba(123,97,255,.3)}
+.result-cards{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;max-width:880px;margin:0 auto}
+.result-card{border-radius:14px;padding:32px;position:relative;overflow:hidden}
+.result-card::before{content:'';position:absolute;inset:0;border-radius:14px;padding:1px;-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
+.rc-fail{background:linear-gradient(135deg,rgba(255,60,95,.08),rgba(255,60,95,.02))}
+.rc-fail::before{background:linear-gradient(135deg,rgba(255,60,95,.4),transparent)}
+.rc-pass{background:linear-gradient(135deg,rgba(0,245,212,.08),rgba(0,245,212,.02))}
+.rc-pass::before{background:linear-gradient(135deg,rgba(0,245,212,.4),transparent)}
+.rc-label{font-size:12px;text-transform:uppercase;letter-spacing:1.5px;font-weight:700;margin-bottom:10px}
+.rc-fail .rc-label{color:var(--accent3)}
+.rc-pass .rc-label{color:var(--accent)}
+.rc-big{font-size:42px;font-weight:900;font-family:var(--mono);margin-bottom:4px}
+.rc-fail .rc-big{color:var(--accent3)}
+.rc-pass .rc-big{color:var(--accent)}
+.rc-sub{font-size:14px;color:var(--text2);line-height:1.7}
+
+/* ══════════════════════════════════════════════════════════════
+   CTA
+   ══════════════════════════════════════════════════════════════ */
+.cta{padding:100px 0;text-align:center}
+.cta-box{background:linear-gradient(135deg,var(--bg3),var(--surface));border:1px solid rgba(0,245,212,.12);border-radius:20px;padding:60px 40px;max-width:700px;margin:0 auto;position:relative;overflow:hidden}
+.cta-box::before{content:'';position:absolute;top:-100px;right:-100px;width:300px;height:300px;background:radial-gradient(circle,rgba(0,245,212,.1),transparent 70%);pointer-events:none}
+.cta h2{font-size:2rem;font-weight:800;margin-bottom:14px}
+.cta p{color:var(--text2);font-size:16px;margin-bottom:32px;max-width:480px;margin-left:auto;margin-right:auto}
+
+/* ══════════════════════════════════════════════════════════════
+   FOOTER
+   ══════════════════════════════════════════════════════════════ */
+.footer{padding:40px 0;border-top:1px solid rgba(255,255,255,.05);text-align:center;color:var(--text3);font-size:13px}
+
+/* ══════════════════════════════════════════════════════════════
+   ANIMATIONS
+   ══════════════════════════════════════════════════════════════ */
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+.animate{animation:fadeUp .7s ease forwards;opacity:0}
+.animate.d1{animation-delay:.1s}
+.animate.d2{animation-delay:.2s}
+.animate.d3{animation-delay:.3s}
+.animate.d4{animation-delay:.4s}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.pulse{animation:pulse 2s ease-in-out infinite}
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════ NAV ════════════════════════ -->
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="nav-logo"><span class="icon">🛡️</span> CyberShield.uz</div>
+    <div class="nav-links">
+      <a href="#tools">Asboblar</a>
+      <a href="#demo">Demo</a>
+      <a href="#specs">Texnologiya</a>
+      <a href="#cta">Bog'lanish</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ════════════════════════ HERO ════════════════════════ -->
+<section class="hero" id="hero">
+  <div class="container">
+    <div class="hero-grid grid-2" style="align-items:center">
+      <div class="hero-left">
+        <div class="hero-badge animate">🛡️ Respublika #1 Yo'nalish</div>
+        <h1 class="animate d1">Hujumni sinab ko'ring —<br>Qalqonni sinang.</h1>
+        <p class="animate d2">
+          <strong>Stress-Strike</strong> — haqiqiy DDoS kuchi bilan istalgan saytni sinang.
+          <strong>VeriGate</strong> — shu hujumni 99.9% yutib, himoya qiling.
+          Ikkita asbob — bitta yechim.
+        </p>
+        <div class="hero-buttons animate d3">
+          <a href="#demo" class="btn btn-primary">⚡ Live Demo ko'rish</a>
+          <a href="#specs" class="btn btn-secondary">📐 Texnologiya</a>
+        </div>
+        <div class="hero-stats animate d4" id="hero-stats">
+          <div class="stat-card attack">
+            <div class="value" id="counter-req">0</div>
+            <div class="label">Hujum so'rovlari</div>
+          </div>
+          <div class="stat-card defend">
+            <div class="value">99.9%</div>
+            <div class="label">VeriGate yutdi</div>
+          </div>
+          <div class="stat-card attack">
+            <div class="value">25.9k</div>
+            <div class="label">RPS hajmi</div>
+          </div>
+          <div class="stat-card defend">
+            <div class="value">0</div>
+            <div class="label">Xato — backend teginmadi</div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div style="text-align:center">
+          <div style="font-size:120px;line-height:1;margin-bottom:16px" class="pulse">⚔️🛡️</div>
+          <div style="font-size:14px;color:var(--text3)">Hujum + Qalqon = To'liq Yechim</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════ TOOLS VS ════════════════════════ -->
+<section class="vs-section" id="tools">
+  <div class="container">
+    <div class="section-label">Ikki asbob — bitta maqsad</div>
+    <div class="section-title">Stress-Strike vs VeriGate</div>
+    <div class="section-subtitle">Biri kuch bilan sinaydi, ikkinchisi kuch bilan himoya qiladi</div>
+
+    <div class="grid grid-2">
+      <!-- ATTACK -->
+      <div class="vs-panel panel-attack">
+        <div class="panel-header">
+          <div class="panel-icon attack">⚔️</div>
+          <div><div class="panel-name">Stress-Strike</div><div class="panel-tagline">Ultra-tez yuk sinash va xavfsizlik auditi</div></div>
+        </div>
+        <ul class="feature-list">
+          <li><span class="dot red"></span>HTTP/HTTPS, WebSocket, gRPC, TCP, UDP — 5 protokol</li>
+          <li><span class="dot red"></span>100,000+ virtual foydalanuvchi</li>
+          <li><span class="dot red"></span>5 yuk profili: steady, soak, ramp, spike, wave</li>
+          <li><span class="dot red"></span>PCAP/HAR trafigini qayta o'ynatish</li>
+          <li><span class="dot red"></span>"Race gate" — birdaniga barchani urish</li>
+          <li><span class="dot red"></span>1 bosishda pentest + PDF hisobot</li>
+          <li><span class="dot red"></span>Real-vaqt dashboard (WebSocket)</li>
+          <li><span class="dot red"></span>SLA darvozasi — CI/CD integratsiya</li>
+        </ul>
+        <div class="metric-row">
+          <div class="metric red"><div class="m-value">25.9k</div><div class="m-label">RPS / laptop</div></div>
+          <div class="metric red"><div class="m-value">~0</div><div class="m-label">Xatolik darajasi</div></div>
+        </div>
+      </div>
+
+      <!-- DEFEND -->
+      <div class="vs-panel panel-defend">
+        <div class="panel-header">
+          <div class="panel-icon defend">🛡️</div>
+          <div><div class="panel-name">VeriGate</div><div class="panel-tagline">Stateless PoW DDoS qalqoni</div></div>
+        </div>
+        <ul class="feature-list">
+          <li><span class="dot green"></span>Stateless Proof-of-Work — xotira talab qilmaydi</li>
+          <li><span class="dot green"></span>82-hex challenge + HMAC-SHA256 — himoyalangan</li>
+          <li><span class="dot green"></span>60-soniyalik brauzer solver (Web-worker)</li>
+          <li><span class="dot green"></span>Real-time tahdid tahlili — HIGH/MEDIUM/LOW</li>
+          <li><span class="dot green"></span>Per-IP rate limiting (token bucket)</li>
+          <li><span class="dot green"></span>Reverse proxy — istalgan backend'ni himoya qiladi</li>
+          <li><span class="dot green"></span>Zero-cache arxitektura — horizontal kengayadi</li>
+          <li><span class="dot green"></span>Demo dashboard — real-time monitoring</li>
+        </ul>
+        <div class="metric-row">
+          <div class="metric green"><div class="m-value">99.9%</div><div class="m-label">Trafik yutildi</div></div>
+          <div class="metric green"><div class="m-value">3.7MB</div><div class="m-label">Xotira iste'moli</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════ LIVE DEMO ════════════════════════ -->
+<section class="demo-section" id="demo">
+  <div class="container">
+    <div class="section-label">Jonli isbot</div>
+    <div class="section-title">Haqiqiy natija — shu kompyuterda</div>
+    <div class="section-subtitle">Bitta sayt, xuddi shu hujum — VeriGate'siz yiqildi, VeriGate bilan qutildi</div>
+
+    <div class="demo-terminal" id="term1">
+      <div class="terminal-bar">
+        <span class="terminal-dot r"></span><span class="terminal-dot y"></span><span class="terminal-dot g"></span>
+        <span class="terminal-title">terminal — hujum natijalari</span>
+      </div>
+      <div class="terminal-body" id="term1-body"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════ COMPARISON ════════════════════════ -->
+<section class="comparison" id="comparison">
+  <div class="container">
+    <div class="vs-banner">
+      <div>⚔️ Sayt himoyasiz</div>
+      <div class="vs-badge">VS</div>
+      <div>Sayt VeriGate bilan 🛡️</div>
+    </div>
+    <div class="result-cards">
+      <div class="result-card rc-fail">
+        <div class="rc-label">🚫 VeriGate'siz — backend yiqildi</div>
+        <div class="rc-big">47%</div>
+        <div class="rc-sub">
+          Xato darajasi: <strong>4,300 × 503</strong><br>
+          Latency: 19ms → <strong>504ms</strong> (26× ortdi)<br>
+          Backend CPU: yuk ko'tardi<br>
+          Holat: <strong>CRITICAL</strong>
+        </div>
+      </div>
+      <div class="result-card rc-pass">
+        <div class="rc-label">✅ VeriGate bilan — backend himoyalandi</div>
+        <div class="rc-big">0%</div>
+        <div class="rc-sub">
+          Backendga tushgan hujum: <strong>0 ta</strong><br>
+          278,600 so'rov devorda yutildi<br>
+          Backend CPU: <strong>0.0%</strong> (tinch)<br>
+          Haqiqiy foydalanuvchi: <strong>200 OK</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════ SPECS ════════════════════════ -->
+<section class="specs-section" id="specs">
+  <div class="container">
+    <div class="section-label">Texnologiya</div>
+    <div class="section-title">Nima uchun bu yechim</div>
+    <div class="section-subtitle">Zamonaviy arxitektura, nol byudjet, tayyor ishlatish</div>
+    <div class="specs-grid">
+      <div class="spec-card">
+        <div class="s-icon">⚡</div>
+        <h3>Go tilida yozilgan</h3>
+        <p>Har ikkala asbob — Go 1.26+. Goroutine'lar, bir faylda, zero-konteyner. Har qanday serverga o'rnatiladi.</p>
+        <span class="s-tag">Performance</span>
+      </div>
+      <div class="spec-card">
+        <div class="s-icon">🔒</div>
+        <h3>Stateless himoya</h3>
+        <p>VeriGate xotira saqlamaydi. Redis yo'q, DB yo'q. Faqat HMAC-SHA256. Stateless = nol xatolik, horizontal kengaytirish mumkin.</p>
+        <span class="s-tag">Zero-Trust</span>
+      </div>
+      <div class="spec-card">
+        <div class="s-icon">📊</div>
+        <h3>Real-time monitoring</h3>
+        <p>Jonli dashboard: RPS, latency p99, threat level, CPU. WebSocket orqali yangilanadi. Har soniya.</p>
+        <span class="s-tag">Observability</span>
+      </div>
+      <div class="spec-card">
+        <div class="s-icon">🌐</div>
+        <h3>5+ protokol</h3>
+        <p>HTTP, HTTPS, WebSocket, gRPC, TCP, UDP — stress-strike barchasini sinaydi. Bir scenario faylda.</p>
+        <span class="s-tag">Multi-Protocol</span>
+      </div>
+      <div class="spec-card">
+        <div class="s-icon">🏗️</div>
+        <h3>Reverse proxy</h3>
+        <p>VeriGate istalgan backend'ning oldiga qo'yiladi. Nginx, Express, Go, PHP — farqi yo'q.</p>
+        <span class="s-tag">Universal</span>
+      </div>
+      <div class="spec-card">
+        <div class="s-icon">📄</div>
+        <h3>Pentest + hisobot</h3>
+        <p>1 bosishda: recon → skan → CVE → OWASP → PDF. Mijozga tayyor hisobot.</p>
+        <span class="s-tag">One-Click</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════ CTA ════════════════════════ -->
+<section class="cta" id="cta">
+  <div class="container">
+    <div class="cta-box">
+      <h2>Saytingizni sinash / himoya qilish kerakmi?</h2>
+      <p>Stress-Strike + VeriGate — hujumchi va qalqon bir paketda. Respublikadagi har qanday saytni sinang va himoya qiling.</p>
+      <div class="hero-buttons" style="justify-content:center">
+        <a href="https://github.com/asadbekabdulboqiyev/stress-strike" class="btn btn-primary" target="_blank">⚔️ Stress-Strike — GitHub</a>
+        <a href="#demo" class="btn btn-secondary">🛡️ VeriGate — Jonli demo</a>
+      </div>
+      <div style="margin-top:28px;font-size:13px;color:var(--text3)">
+        Go 1.26+ · Zero dependencies · O'zbekiston 🇺🇿
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <p>CyberShield.uz — Stress-Strike v0.9.0 + VeriGate v1.0 · Barcha huquqlar himoyalangan · 2026</p>
+  </div>
+</footer>
+
+<!-- ══════════════════════════════════════════════════════════════
+     TERMINAL ANIMATION
+     ══════════════════════════════════════════════════════════════ -->
+<script>
+// Terminal typewriter
+const lines = [
+  {type:'cmd', text:'$ stress-strike run --url http://9090/api/orders --users 300 --duration 15'},
+  {type:'blank'},
+  {type:'white', text:'  ┌──────────────────────────────────────────────────────────┐'},
+  {type:'white', text:'  │  Phase: ATTACKING  Duration: 15s  Users: 300            │'},
+  {type:'white', text:'  └──────────────────────────────────────────────────────────┘'},
+  {type:'blank'},
+  {type:'yellow', text:'  [3.2s]  1,421 req/s  p50=504ms  errors=312 (22%)'},
+  {type:'yellow', text:'  [6.1s]  1,398 req/s  p50=506ms  errors=487 (35%)'},
+  {type:'red',    text:'  [9.4s]  1,205 req/s  p50=503ms  errors=621 (51%)  ← 503 QUYI'},
+  {type:'red',    text:'  [12.8s] 1,180 req/s  p50=504ms  errors=710 (60%)  ← CRITICAL'},
+  {type:'red',    text:'  [15.0s] 1,145 req/s  p50=504ms  errors=892 (62%)'},
+  {type:'blank'},
+  {type:'bold',   text:'  ════════════════════════════════════════════════════════'},
+  {type:'red-bold',text:'  ❌  UNPROTECTED: 47% xato  |  p50=504ms  |  CRITICAL'},
+  {type:'bold',   text:'  ════════════════════════════════════════════════════════'},
+  {type:'blank'},
+  {type:'cmd', text:'$ verigate -protected http://127.0.0.1:9090 -difficulty 14'},
+  {type:'green', text:'  verigate: listening on :8080 (difficulty=14 token_ttl=300s)'},
+  {type:'blank'},
+  {type:'cmd', text:'$ stress-strike run --url http://8080/api/orders --users 300 --duration 15'},
+  {type:'blank'},
+  {type:'white', text:'  ┌──────────────────────────────────────────────────────────┐'},
+  {type:'white', text:'  │  Phase: ATTACKING  Duration: 15s  Users: 300            │'},
+  {type:'white', text:'  └──────────────────────────────────────────────────────────┘'},
+  {type:'blank'},
+  {type:'green', text:'  [3.2s]  18,412 req/s  status: 401=312  429=17,890  errors=0'},
+  {type:'green', text:'  [6.1s]  18,205 req/s  status: 401=487  429=35,012  errors=0'},
+  {type:'green', text:'  [9.4s]  18,541 req/s  status: 401=621  429=53,220  errors=0'},
+  {type:'green', text:'  [12.8s] 18,302 req/s  status: 401=710  429=71,440  errors=0'},
+  {type:'green', text:'  [15.0s] 18,468 req/s  status: 401=892  429=89,200  errors=0'},
+  {type:'blank'},
+  {type:'bold',   text:'  ════════════════════════════════════════════════════════'},
+  {type:'green-bold',text:'  ✅  PROTECTED: 0% xato  |  backend CPU=0.0%  |  HEALTHY'},
+  {type:'bold',   text:'  ════════════════════════════════════════════════════════'},
+  {type:'blank'},
+  {type:'blue', text:'  Haqiqiy foydalanuvchi: diff-14 yechdi → verify 200 → 100,000 buyurtma OK ✅'},
+];
+
+const term1Body = document.getElementById('term1-body');
+let lineIdx = 0;
+
+function typeLine(){
+  if(lineIdx >= lines.length){
+    term1Body.innerHTML += '<span class="cursor-blink"></span>';
+    return;
+  }
+  const l = lines[lineIdx++];
+  if(l.type==='blank'){term1Body.innerHTML+='<br>';setTimeout(typeLine,80);return;}
+  let cls='t-dim';
+  if(l.type==='cmd') cls='t-green';
+  if(l.type==='white') cls='t-white';
+  if(l.type==='yellow') cls='t-yellow';
+  if(l.type==='red') cls='t-red';
+  if(l.type==='green') cls='t-green';
+  if(l.type==='bold') cls='t-bold';
+  if(l.type==='red-bold') cls='t-red t-bold';
+  if(l.type==='green-bold') cls='t-green t-bold';
+  if(l.type==='blue') cls='t-blue';
+
+  const span = document.createElement('div');
+  span.className = cls;
+  span.textContent = l.text;
+  term1Body.appendChild(span);
+  term1Body.scrollTop = term1Body.scrollHeight;
+  setTimeout(typeLine, l.type==='cmd' ? 180 : l.type.startsWith('bold') ? 120 : 100);
+}
+
+// Counter animation
+function animateCounter(el, target, duration){
+  let startTime=null;
+  function step(ts){
+    if(!startTime) startTime=ts;
+    const p=Math.min((ts-startTime)/duration, 1);
+    el.textContent = Math.floor(p*target).toLocaleString() + '+';
+    if(p<1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
+// Trigger on scroll
+const obs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const el = e.target;
+      if(el.id==='term1'){typeLine(); obs.unobserve(el);}
+      if(el.id==='hero-stats'){
+        animateCounter(document.getElementById('counter-req'), 278600, 2000);
+        obs.unobserve(el);
+      }
+    }
+  });
+},{threshold:0.3});
+
+obs.observe(document.getElementById('term1'));
+obs.observe(document.getElementById('hero-stats'));
+</script>
+</body>
+</html>
